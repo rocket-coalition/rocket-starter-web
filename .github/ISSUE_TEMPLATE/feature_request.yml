@@ -1,0 +1,48 @@
+name: "✨ Feature Request"
+description: Suggest a new feature or enhancement
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a feature! After submitting, you can use **@copilot issue-planner.md** to generate a detailed implementation plan.
+  
+  - type: input
+    id: summary
+    attributes:
+      label: Feature Summary
+      placeholder: e.g. "Add dark mode toggle"
+    validations:
+      required: true
+  
+  - type: textarea
+    id: description
+    attributes:
+      label: Detailed Description
+      description: "What should this feature do? Why is it needed?"
+      placeholder: "I would like to see..."
+    validations:
+      required: true
+  
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: "How will this feature be used?"
+      placeholder: "This would help when..."
+    validations:
+      required: false
+  
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: "Are there alternative solutions you've thought about?"
+    validations:
+      required: false
+  
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        **Next Steps**: After submitting this issue, invoke **@copilot issue-planner.md** or **@copilot task-delegator.md** to get an automated analysis and implementation plan!
