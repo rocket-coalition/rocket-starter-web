@@ -1,0 +1,27 @@
+﻿Folder structure for: D:\RocketRepos\rocket-starter-web\utils\..\site
+Excluded: node_modules, public, resources, .git, .hugo_cache, _cache, .bin, dist, coverage, tmp
+
+|-- i18n
+|-- layouts
+    |-- _default
+        |-- single.html
+        |-- baseof.html
+    |-- index.html
+|-- static
+|-- data
+|-- archetypes
+    |-- default.md
+|-- assets
+    |-- css
+        |-- output.css
+        |-- input.css
+|-- content
+    |-- faq
+        |-- index.md
+    |-- about
+        |-- index.md
+    |-- _index.md
+|-- package-lock.json
+|-- package.json
+|-- .hugo_build.lock
+|-- hugo.toml

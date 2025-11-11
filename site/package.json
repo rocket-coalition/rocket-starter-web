@@ -1,0 +1,21 @@
+{
+  "name": "site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch",
+    "build": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --minify",
+    "hugo": "hugo server -D",
+    "start": "concurrently \"npm run dev\" \"npm run hugo\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.17",
+    "concurrently": "^9.2.1",
+    "daisyui": "^5.4.7",
+    "tailwindcss": "^4.1.17"
+  }
+}

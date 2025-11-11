@@ -1,0 +1,31 @@
+baseURL: "https://rocket-starter-web.com/"
+languageCode: "en-us"
+title: "Rocket Starter Web"
+enableRobotsTXT: true
+enableGitInfo: true
+buildDrafts: true   # Change to false in production if you want to hide drafts
+
+pagination:
+  pagerSize: 10
+
+params:
+  description: "The Genesis starter for all Rocket-powered web sites."
+  author: "Raiford Brookshire"
+  repo: "https://github.com/rocket-coalition/rocket-starter-web"
+
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+
+taxonomies:
+  tag: "tags"
+  category: "categories"
+
+outputs:
+  home: ["HTML", "RSS", "JSON"]
+
+# Uncomment and customize if using permalinks for content sections
+#permalinks:
+#  features: "/features/:slug/"

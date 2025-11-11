@@ -1,0 +1,173 @@
+/* =====================================================================
+   🚀 ROCKET LAYOUT FRAMEWORK v1.3 — Tailwind 4.1+ Input File
+   =====================================================================
+
+   PURPOSE
+   ---------------------------------------------------------------------
+   Responsive structural backbone for all Rocket sites.
+   Handles only layout structure — colors & components come from DaisyUI.
+   ===================================================================== */
+
+
+@import "tailwindcss";
+@plugin "daisyui";
+
+
+
+
+
+
+
+
+
+
+/* =====================================================================
+   🧩 ROCKET CORE TOKENS — Invisible, Universal Layout Variables
+   ===================================================================== */
+@theme {
+  --layout-gap: 2rem;
+  --layout-max-width: 1600px;
+  --layout-sidebar-width: 16rem;
+  --layout-section-padding: 4rem;
+  --layout-header-height: auto;
+  --layout-footer-height: auto;
+  --layout-content-padding: 2rem;
+  --layout-radius: 0.5rem;
+  --layout-container-width: 60ch;
+
+  --layout-frame-margin: .5rem; /* controls outer breathing room around frame */
+
+
+  --debug-outline-color: hsl(200 100% 70% / 0.4);
+  --debug-outline-width: 4px;
+  --debug-outline-style: dashed;
+
+  /* Responsive tiers (reference only)
+     sm 640px | md 768px | lg 1024px | xl 1280px | 2xl 1536px | uw 1920px */
+}
+
+/* =====================================================================
+   🌐 BASE FRAME — Shared by All Page Types
+   ===================================================================== */
+@utility layout-site-frame {
+  display: grid;
+  width: 100%;
+  min-height: 100vh;
+  gap: var(--layout-gap);
+  margin: var(--layout-frame-margin) auto; /* top/bottom + centered horizontally */
+    
+  /* keep your max width constraint */
+  max-width: calc(var(--layout-max-width) - (var(--layout-frame-margin) * 2));
+
+  border-radius: var(--layout-radius);
+}
+
+@utility layout-header  { grid-area: header; min-height: var(--layout-header-height); }
+@utility layout-sidebar { grid-area: sidebar; width: var(--layout-sidebar-width); }
+@utility layout-main    { grid-area: main; padding: var(--layout-content-padding); }
+@utility layout-footer  { grid-area: footer; min-height: var(--layout-footer-height); }
+
+/* =====================================================================
+   🧱 VARIANT 1 — SINGLE PAGE
+   ===================================================================== */
+@utility layout-single-page {
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr;
+  max-width: var(--layout-container-width);
+}
+
+/* =====================================================================
+   🌄 VARIANT 2 — LANDING PAGE
+   ===================================================================== */
+@utility layout-landing-page {
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr;
+}
+
+.layout-landing-page .layout-main > section {
+  scroll-margin-top: 4rem;
+  padding-block: var(--layout-section-padding);
+}
+
+/* =====================================================================
+   🧭 VARIANT 3 — MULTI PAGE
+   ===================================================================== */
+@utility layout-multi-page {
+  grid-template-areas:
+    "header header"
+    "sidebar main"
+    "footer footer";
+  grid-template-columns: var(--layout-sidebar-width) 1fr;
+  grid-template-rows: auto 1fr auto;
+}
+
+/* =====================================================================
+   📱 RESPONSIVE ADJUSTMENTS
+   ===================================================================== */
+@media (max-width: 768px) {
+  .layout-multi-page {
+    grid-template-areas:
+      "header"
+      "main"
+      "footer";
+    grid-template-columns: 1fr;
+  }
+  .layout-sidebar { display: none; }
+}
+
+@media (min-width: 768px) {
+  .layout-main { padding: calc(var(--layout-content-padding) * 1.25); }
+}
+
+@media (min-width: 1024px) {
+  .layout-main { padding: calc(var(--layout-content-padding) * 1.5); }
+}
+
+@media (min-width: 1536px) {
+  .layout-site-frame { max-width: var(--layout-max-width); }
+}
+
+/* Ultra-wide tier — opt-in with .uw-enabled */
+@media (min-width: 1920px) {
+  .layout-site-frame.uw-enabled {
+    max-width: none;
+    grid-template-columns: calc(var(--layout-sidebar-width) * 1.25) 1fr;
+  }
+}
+
+/* =====================================================================
+   🔍 VISUAL DEBUGGING (optional)
+   ===================================================================== */
+.debug-layout > * {
+  outline: 4px dashed hsl(200 100% 70% / 0.4);
+}
+
+@utility debug-layout {
+  > * {
+    outline: var(--debug-outline-width) var(--debug-outline-style) var(--debug-outline-color);
+  }
+}
+
+
+/* =====================================================================
+   💡 FUTURE IDEAS — Quick Roadmap Thoughts
+   =====================================================================
+   - Theme state vars (.is-dark / .is-light)
+   - Loading overlay (.is-loading)
+   - Optional right sidebar (.layout-rightbar)
+   - Responsive gap scaling via tokens
+   - Sticky sub-header in main area
+   - Scroll-snap utilities for landing pages
+   - Print / export mode
+   - Motion / parallax background layer
+   - Density modes (compact / cozy / spacious)
+   - AI-driven layout-autofit via container queries
+   ===================================================================== */

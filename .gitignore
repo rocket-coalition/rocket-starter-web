@@ -1,0 +1,41 @@
+
+# -------------------------
+# Hugo build artifacts
+# -------------------------
+site/public/
+site/resources/
+.hugo_build.lock
+
+# -------------------------
+# Node / Tailwind
+# -------------------------
+
+node_modules/
+site/node_modules/
+package-lock.json
+site/assets/css/output.css
+
+# -------------------------
+# OS / Editor junk
+# -------------------------
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+
+# -------------------------
+# IDEs
+# -------------------------
+.vscode/
+.idea/
+*.code-workspace
+
+
+
+# -------------------------
+# Misc
+# -------------------------
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

@@ -1,0 +1,223 @@
+{{ define "main" }}
+  <!-- HERO -->
+  <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center gap-6">
+    <h1 class="text-5xl font-bold">{{ .Site.Title }}</h1>
+    <p class="text-lg opacity-80">A modern Hugo + DaisyUI landing page</p>
+    <div class="join">
+      <a href="#about" class="btn btn-primary join-item">Learn More</a>
+      <a href="#contact" class="btn btn-secondary join-item">Contact</a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="p-12 text-center space-y-4">
+    <h2 class="text-3xl font-semibold">About</h2>
+    <p>{{ .Content }}</p>
+
+    <div class="alert alert-info w-fit mx-auto">
+      <span>Built with TailwindCSS + DaisyUI</span>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="p-12 grid gap-8 md:grid-cols-3">
+    {{ range where .Site.RegularPages "Type" "features" }}
+      <article class="card bg-base-200 shadow-md hover:shadow-xl transition">
+        <div class="card-body">
+          <h3 class="card-title">{{ .Title }}</h3>
+          <p>{{ .Params.description }}</p>
+          <div class="card-actions justify-end">
+            <a href="{{ .RelPermalink }}" class="btn btn-outline btn-sm">Read More</a>
+          </div>
+        </div>
+      </article>
+    {{ else }}
+      <div class="col-span-3 text-center opacity-70">No features yet — add some content!</div>
+    {{ end }}
+  </section>
+
+  <!-- DEBUG INFO -->
+  <section id="debug" class="p-8 bg-base-200 text-base-content rounded-lg mx-auto my-12 max-w-3xl">
+    <h2 class="text-xl font-semibold mb-4">🧩 Page Debug Info</h2>
+    <ul class="space-y-1 text-sm">
+      <li><b>File:</b> {{ .File.Path }}</li>
+      <li><b>Base File Name:</b> {{ .File.BaseFileName }}</li>
+      <li><b>Dir:</b> {{ .File.Dir }}</li>
+      <li><b>Section:</b> {{ with .Section }}{{ . }}{{ else }}(none){{ end }}</li>
+      <li><b>URL:</b> {{ .Permalink }}</li>
+      <li><b>Type:</b> {{ with .Type }}{{ . }}{{ else }}(not set){{ end }}</li>
+      <li><b>Title:</b> {{ .Title }}</li>
+      <li><b>Is Draft:</b> {{ .Draft }}</li>
+      <li><b>Date:</b> {{ .Date }}</li>
+    </ul>
+  </section>
+
+    <!-- DAISYUI COMPONENT GALLERY -->
+  <section id="daisy-demo" class="p-12 max-w-5xl mx-auto space-y-6">
+    <h2 class="text-3xl font-bold text-center mb-8">🎨 DaisyUI Component Gallery</h2>
+
+    <div class="collapse collapse-arrow bg-base-200">
+      <input type="checkbox" />
+      <div class="collapse-title text-lg font-medium">1. Buttons</div>
+      <div class="collapse-content flex flex-wrap gap-2">
+        <button class="btn">Default</button>
+        <button class="btn btn-primary">Primary</button>
+        <button class="btn btn-secondary">Secondary</button>
+        <button class="btn btn-accent">Accent</button>
+        <button class="btn btn-outline">Outline</button>
+        <button class="btn btn-ghost">Ghost</button>
+        <button class="btn btn-link">Link</button>
+      </div>
+    </div>
+
+    <div class="collapse collapse-arrow bg-base-200">
+      <input type="checkbox" />
+      <div class="collapse-title text-lg font-medium">2. Alerts</div>
+      <div class="collapse-content space-y-2">
+        <div class="alert alert-info">Info alert — system message!</div>
+        <div class="alert alert-success">Success — operation complete.</div>
+        <div class="alert alert-warning">Warning — check your configuration.</div>
+        <div class="alert alert-error">Error — something went wrong.</div>
+      </div>
+    </div>
+
+    <div class="collapse collapse-arrow bg-base-200">
+      <input type="checkbox" />
+      <div class="collapse-title text-lg font-medium">3. Cards</div>
+      <div class="collapse-content grid md:grid-cols-3 gap-6">
+        <div class="card bg-base-100 shadow">
+          <div class="card-body">
+            <h2 class="card-title">Card Title</h2>
+            <p>Cards can hold content and actions.</p>
+            <div class="card-actions justify-end">
+              <button class="btn btn-primary btn-sm">Action</button>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-base-100 shadow">
+          <figure><img src="https://placehold.co/300x200" alt="Sample" /></figure>
+          <div class="card-body">
+            <h2 class="card-title">Card with Image</h2>
+            <p>Includes a header image.</p>
+          </div>
+        </div>
+        <div class="card bg-base-100 shadow">
+          <div class="card-body items-center text-center">
+            <p>Centered text with minimal style.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapse collapse-arrow bg-base-200">
+      <input type="checkbox" />
+      <div class="collapse-title text-lg font-medium">4. Badges</div>
+      <div class="collapse-content flex gap-2 flex-wrap">
+        <div class="badge">Default</div>
+        <div class="badge badge-primary">Primary</div>
+        <div class="badge badge-secondary">Secondary</div>
+        <div class="badge badge-accent">Accent</div>
+        <div class="badge badge-outline">Outline</div>
+      </div>
+    </div>
+
+    <div class="collapse collapse-arrow bg-base-200">
+      <input type="checkbox" />
+      <div class="collapse-title text-lg font-medium">5. Avatars</div>
+      <div class="collapse-content flex gap-4">
+        <div class="avatar">
+          <div class="w-16 rounded"><img src="https://placehold.co/100x100" /></div>
+        </div>
+        <div class="avatar online">
+          <div class="w-16 rounded-full"><img src="https://placehold.co/100x100" /></div>
+        </div>
+        <div class="avatar offline">
+          <div class="w-16 rounded-full"><img src="https://placehold.co/100x100" /></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapse collapse-arrow bg-base-200">
+      <input type="checkbox" />
+      <div class="collapse-title text-lg font-medium">6. Tabs</div>
+      <div class="collapse-content">
+        <div role="tablist" class="tabs tabs-bordered">
+          <a role="tab" class="tab tab-active">Tab 1</a>
+          <a role="tab" class="tab">Tab 2</a>
+          <a role="tab" class="tab">Tab 3</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapse collapse-arrow bg-base-200">
+      <input type="checkbox" />
+      <div class="collapse-title text-lg font-medium">7. Progress Bars</div>
+      <div class="collapse-content space-y-2">
+        <progress class="progress progress-primary w-56" value="40" max="100"></progress>
+        <progress class="progress progress-secondary w-56" value="70" max="100"></progress>
+        <progress class="progress progress-accent w-56" value="90" max="100"></progress>
+      </div>
+    </div>
+
+    <div class="collapse collapse-arrow bg-base-200">
+      <input type="checkbox" />
+      <div class="collapse-title text-lg font-medium">8. Inputs</div>
+      <div class="collapse-content space-y-3">
+        <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
+        <input type="text" placeholder="Primary input" class="input input-primary w-full max-w-xs" />
+        <input type="text" placeholder="Accent input" class="input input-accent w-full max-w-xs" />
+      </div>
+    </div>
+
+    <div class="collapse collapse-arrow bg-base-200">
+      <input type="checkbox" />
+      <div class="collapse-title text-lg font-medium">9. Stats</div>
+      <div class="collapse-content">
+        <div class="stats shadow">
+          <div class="stat">
+            <div class="stat-title">Downloads</div>
+            <div class="stat-value">31K</div>
+            <div class="stat-desc">↗︎ 400 (22%)</div>
+          </div>
+          <div class="stat">
+            <div class="stat-title">Users</div>
+            <div class="stat-value">4,200</div>
+            <div class="stat-desc">↘︎ 90 (2%)</div>
+          </div>
+          <div class="stat">
+            <div class="stat-title">Revenue</div>
+            <div class="stat-value">$120K</div>
+            <div class="stat-desc">↗︎ 15%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapse collapse-arrow bg-base-200">
+      <input type="checkbox" />
+      <div class="collapse-title text-lg font-medium">10. Modals</div>
+      <div class="collapse-content space-y-3">
+        <button class="btn btn-primary" onclick="my_modal_1.showModal()">Open Modal</button>
+        <dialog id="my_modal_1" class="modal">
+          <div class="modal-box">
+            <h3 class="font-bold text-lg">Hello there!</h3>
+            <p class="py-4">You just opened a DaisyUI modal.</p>
+            <div class="modal-action">
+              <form method="dialog">
+                <button class="btn">Close</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- CONTACT -->
+  <section id="contact" class="p-12 text-center space-y-4">
+    <h2 class="text-3xl font-semibold">Contact</h2>
+    <p>Got questions? We’d love to hear from you!</p>
+    <button class="btn btn-primary">Email Us</button>
+  </section>
+{{ end }}
