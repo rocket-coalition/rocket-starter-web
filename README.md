@@ -37,3 +37,18 @@ each rocket sharper, lighter, and more intelligent than the last.
 This is that ignition.
 
 ───────────────────────────────────────────────────────────────
+
+## 🤖 AI Agents & Automation
+
+This project includes custom GitHub Copilot agents to help with development workflows:
+
+- **Issue Planning**: Automatically generate step-by-step implementation plans
+- **Task Delegation**: Identify which tasks are safe to delegate to AI
+- **Code Review**: Get automated code reviews following project standards
+
+**Quick Start**: See [`.github/agents/QUICK-START.md`](.github/agents/QUICK-START.md)  
+**Full Guide**: See [`.github/agents/README.md`](.github/agents/README.md)
+
+**You have complete control** - agents are just markdown files you can customize!
+
+───────────────────────────────────────────────────────────────
