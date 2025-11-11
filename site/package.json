@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch",
-    "build": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --minify",
+    "build:css": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --minify",
+    "build:hugo": "hugo --gc --minify",
+    "build": "npm run build:css && npm run build:hugo",
     "hugo": "hugo server -D",
     "start": "concurrently \"npm run dev\" \"npm run hugo\""
   },
