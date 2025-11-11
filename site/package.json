@@ -4,12 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch",
+    "watch:css": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch",
     "build:css": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --minify",
+
+    "serve:hugo": "hugo server -D",
     "build:hugo": "hugo --gc --minify",
+
     "build": "npm run build:css && npm run build:hugo",
-    "hugo": "hugo server -D",
-    "start": "concurrently \"npm run dev\" \"npm run hugo\""
+
+    "dev": "dotenv -- concurrently \"npm:watch:css\" \"npm:serve:hugo\"",
+    "start": "npm run dev",
+    "g": "npm run dev"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +23,7 @@
     "@tailwindcss/cli": "^4.1.17",
     "concurrently": "^9.2.1",
     "daisyui": "^5.4.7",
+    "dotenv-cli": "^11.0.0",
     "tailwindcss": "^4.1.17"
   }
 }

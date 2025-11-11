@@ -1,0 +1,11 @@
+[build]
+  base = "site"
+  command = "npm run build"
+  publish = "public"
+
+[build.environment]
+  HUGO_VERSION = "0.146.0"
+  NODE_VERSION = "20.11.0"
+  SITE_ENV = "production"
+  ROCKET_KEY = "ROCKET-PROD-KEY-GOES-HERE"
+
