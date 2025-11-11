@@ -1,6 +1,6 @@
 baseURL: "https://rocket-starter-web.com/"
 languageCode: "en-us"
-title: "Rocket Starter Web"
+title: "Rocket Starter Kit"
 enableRobotsTXT: true
 enableGitInfo: true
 buildDrafts: true   # Change to false in production if you want to hide drafts
