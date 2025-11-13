@@ -1,223 +1,89 @@
 {{ define "main" }}
   <!-- HERO -->
-  <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center gap-6">
-    <h1 class="text-5xl font-bold">{{ .Site.Title }}</h1>
-    <p class="text-lg opacity-80">A modern Hugo + DaisyUI landing page</p>
-    <div class="join">
-      <a href="#about" class="btn btn-primary join-item">Learn More</a>
-      <a href="#contact" class="btn btn-secondary join-item">Contact</a>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="p-12 text-center space-y-4">
-    <h2 class="text-3xl font-semibold">About</h2>
-    <p>{{ .Content }}</p>
-
-    <div class="alert alert-info w-fit mx-auto">
-      <span>Built with TailwindCSS + DaisyUI</span>
+  <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center gap-6 px-4">
+    <h1 class="text-5xl md:text-6xl font-bold">{{ .Site.Title }}</h1>
+    <p class="text-xl max-w-2xl">{{ .Site.Params.description }}</p>
+    <div class="flex gap-4 flex-wrap justify-center">
+      <a href="#features" class="btn btn-primary">Get Started</a>
+      <a href="{{ .Site.Params.repo }}" class="btn btn-outline">View on GitHub</a>
     </div>
   </section>
 
   <!-- FEATURES -->
-  <section id="features" class="p-12 grid gap-8 md:grid-cols-3">
-    {{ range where .Site.RegularPages "Type" "features" }}
-      <article class="card bg-base-200 shadow-md hover:shadow-xl transition">
-        <div class="card-body">
-          <h3 class="card-title">{{ .Title }}</h3>
-          <p>{{ .Params.description }}</p>
-          <div class="card-actions justify-end">
-            <a href="{{ .RelPermalink }}" class="btn btn-outline btn-sm">Read More</a>
-          </div>
-        </div>
-      </article>
-    {{ else }}
-      <div class="col-span-3 text-center opacity-70">No features yet — add some content!</div>
-    {{ end }}
-  </section>
-
-  <!-- DEBUG INFO -->
-  <section id="debug" class="p-8 bg-base-200 text-base-content rounded-lg mx-auto my-12 max-w-3xl">
-    <h2 class="text-xl font-semibold mb-4">🧩 Page Debug Info</h2>
-    <ul class="space-y-1 text-sm">
-      <li><b>File:</b> {{ .File.Path }}</li>
-      <li><b>Base File Name:</b> {{ .File.BaseFileName }}</li>
-      <li><b>Dir:</b> {{ .File.Dir }}</li>
-      <li><b>Section:</b> {{ with .Section }}{{ . }}{{ else }}(none){{ end }}</li>
-      <li><b>URL:</b> {{ .Permalink }}</li>
-      <li><b>Type:</b> {{ with .Type }}{{ . }}{{ else }}(not set){{ end }}</li>
-      <li><b>Title:</b> {{ .Title }}</li>
-      <li><b>Is Draft:</b> {{ .Draft }}</li>
-      <li><b>Date:</b> {{ .Date }}</li>
-    </ul>
-  </section>
-
-    <!-- DAISYUI COMPONENT GALLERY -->
-  <section id="daisy-demo" class="p-12 max-w-5xl mx-auto space-y-6">
-    <h2 class="text-3xl font-bold text-center mb-8">🎨 DaisyUI Component Gallery</h2>
-
-    <div class="collapse collapse-arrow bg-base-200">
-      <input type="checkbox" />
-      <div class="collapse-title text-lg font-medium">1. Buttons</div>
-      <div class="collapse-content flex flex-wrap gap-2">
-        <button class="btn">Default</button>
-        <button class="btn btn-primary">Primary</button>
-        <button class="btn btn-secondary">Secondary</button>
-        <button class="btn btn-accent">Accent</button>
-        <button class="btn btn-outline">Outline</button>
-        <button class="btn btn-ghost">Ghost</button>
-        <button class="btn btn-link">Link</button>
-      </div>
-    </div>
-
-    <div class="collapse collapse-arrow bg-base-200">
-      <input type="checkbox" />
-      <div class="collapse-title text-lg font-medium">2. Alerts</div>
-      <div class="collapse-content space-y-2">
-        <div class="alert alert-info">Info alert — system message!</div>
-        <div class="alert alert-success">Success — operation complete.</div>
-        <div class="alert alert-warning">Warning — check your configuration.</div>
-        <div class="alert alert-error">Error — something went wrong.</div>
-      </div>
-    </div>
-
-    <div class="collapse collapse-arrow bg-base-200">
-      <input type="checkbox" />
-      <div class="collapse-title text-lg font-medium">3. Cards</div>
-      <div class="collapse-content grid md:grid-cols-3 gap-6">
-        <div class="card bg-base-100 shadow">
+  <section id="features" class="py-20 px-4">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-4xl font-bold text-center mb-12">Built for Speed & Flexibility</h2>
+      
+      <div class="grid gap-8 md:grid-cols-3">
+        <div class="card bg-base-100 shadow-xl">
           <div class="card-body">
-            <h2 class="card-title">Card Title</h2>
-            <p>Cards can hold content and actions.</p>
-            <div class="card-actions justify-end">
-              <button class="btn btn-primary btn-sm">Action</button>
-            </div>
+            <h3 class="card-title">🎨 13 Total Themes</h3>
+            <p>OKLCH generative color system. Change 3 variables, get a full theme with 50-900 color ramps.</p>
           </div>
         </div>
-        <div class="card bg-base-100 shadow">
-          <figure><img src="https://placehold.co/300x200" alt="Sample" /></figure>
+        
+        <div class="card bg-base-100 shadow-xl">
           <div class="card-body">
-            <h2 class="card-title">Card with Image</h2>
-            <p>Includes a header image.</p>
+            <h3 class="card-title">⚡ Blazing Fast</h3>
+            <p>~11KB gzipped CSS, zero runtime JavaScript. Hugo static generation for instant page loads.</p>
           </div>
         </div>
-        <div class="card bg-base-100 shadow">
-          <div class="card-body items-center text-center">
-            <p>Centered text with minimal style.</p>
+        
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body">
+            <h3 class="card-title">📱 Mobile Optimized</h3>
+            <p>10 auto-fixes for iOS: safe areas, touch targets, fluid typography, and more.</p>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="collapse collapse-arrow bg-base-200">
-      <input type="checkbox" />
-      <div class="collapse-title text-lg font-medium">4. Badges</div>
-      <div class="collapse-content flex gap-2 flex-wrap">
-        <div class="badge">Default</div>
-        <div class="badge badge-primary">Primary</div>
-        <div class="badge badge-secondary">Secondary</div>
-        <div class="badge badge-accent">Accent</div>
-        <div class="badge badge-outline">Outline</div>
-      </div>
-    </div>
-
-    <div class="collapse collapse-arrow bg-base-200">
-      <input type="checkbox" />
-      <div class="collapse-title text-lg font-medium">5. Avatars</div>
-      <div class="collapse-content flex gap-4">
-        <div class="avatar">
-          <div class="w-16 rounded"><img src="https://placehold.co/100x100" /></div>
-        </div>
-        <div class="avatar online">
-          <div class="w-16 rounded-full"><img src="https://placehold.co/100x100" /></div>
-        </div>
-        <div class="avatar offline">
-          <div class="w-16 rounded-full"><img src="https://placehold.co/100x100" /></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="collapse collapse-arrow bg-base-200">
-      <input type="checkbox" />
-      <div class="collapse-title text-lg font-medium">6. Tabs</div>
-      <div class="collapse-content">
-        <div role="tablist" class="tabs tabs-bordered">
-          <a role="tab" class="tab tab-active">Tab 1</a>
-          <a role="tab" class="tab">Tab 2</a>
-          <a role="tab" class="tab">Tab 3</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="collapse collapse-arrow bg-base-200">
-      <input type="checkbox" />
-      <div class="collapse-title text-lg font-medium">7. Progress Bars</div>
-      <div class="collapse-content space-y-2">
-        <progress class="progress progress-primary w-56" value="40" max="100"></progress>
-        <progress class="progress progress-secondary w-56" value="70" max="100"></progress>
-        <progress class="progress progress-accent w-56" value="90" max="100"></progress>
-      </div>
-    </div>
-
-    <div class="collapse collapse-arrow bg-base-200">
-      <input type="checkbox" />
-      <div class="collapse-title text-lg font-medium">8. Inputs</div>
-      <div class="collapse-content space-y-3">
-        <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
-        <input type="text" placeholder="Primary input" class="input input-primary w-full max-w-xs" />
-        <input type="text" placeholder="Accent input" class="input input-accent w-full max-w-xs" />
-      </div>
-    </div>
-
-    <div class="collapse collapse-arrow bg-base-200">
-      <input type="checkbox" />
-      <div class="collapse-title text-lg font-medium">9. Stats</div>
-      <div class="collapse-content">
-        <div class="stats shadow">
-          <div class="stat">
-            <div class="stat-title">Downloads</div>
-            <div class="stat-value">31K</div>
-            <div class="stat-desc">↗︎ 400 (22%)</div>
-          </div>
-          <div class="stat">
-            <div class="stat-title">Users</div>
-            <div class="stat-value">4,200</div>
-            <div class="stat-desc">↘︎ 90 (2%)</div>
-          </div>
-          <div class="stat">
-            <div class="stat-title">Revenue</div>
-            <div class="stat-value">$120K</div>
-            <div class="stat-desc">↗︎ 15%</div>
+        
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body">
+            <h3 class="card-title">♿ Accessible by Default</h3>
+            <p>WCAG 2.1 AA compliant. Auto focus rings, reduced motion support, semantic HTML.</p>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="collapse collapse-arrow bg-base-200">
-      <input type="checkbox" />
-      <div class="collapse-title text-lg font-medium">10. Modals</div>
-      <div class="collapse-content space-y-3">
-        <button class="btn btn-primary" onclick="my_modal_1.showModal()">Open Modal</button>
-        <dialog id="my_modal_1" class="modal">
-          <div class="modal-box">
-            <h3 class="font-bold text-lg">Hello there!</h3>
-            <p class="py-4">You just opened a DaisyUI modal.</p>
-            <div class="modal-action">
-              <form method="dialog">
-                <button class="btn">Close</button>
-              </form>
-            </div>
+        
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body">
+            <h3 class="card-title">🧩 DaisyUI Components</h3>
+            <p>Seamlessly integrated component library. Buttons, cards, modals, and 27 components ready to use.</p>
           </div>
-        </dialog>
+        </div>
+        
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body">
+            <h3 class="card-title">🎯 3 Layout Variants</h3>
+            <p>Single-page, landing page, and multi-page layouts. Theme-aware with automatic dark mode.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- QUICK START -->
+  <section id="quick-start" class="py-20 px-4 bg-base-200">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-4xl font-bold mb-8">Quick Start</h2>
+      <div class="mockup-code text-left mb-8">
+        <pre data-prefix="$"><code>git clone {{ .Site.Params.repo }}</code></pre>
+        <pre data-prefix="$"><code>cd rocket-starter-web/site</code></pre>
+        <pre data-prefix="$"><code>npm install</code></pre>
+        <pre data-prefix="$"><code>npm run dev</code></pre>
+        <pre data-prefix="→" class="text-success"><code>Server running at http://localhost:1313</code></pre>
+      </div>
+      <p class="text-lg mb-6">Change <code class="badge badge-neutral">data-theme="rocket"</code> to any of 13 themes and watch your entire site transform instantly.</p>
+    </div>
+  </section>
 
-  <!-- CONTACT -->
-  <section id="contact" class="p-12 text-center space-y-4">
-    <h2 class="text-3xl font-semibold">Contact</h2>
-    <p>Got questions? We’d love to hear from you!</p>
-    <button class="btn btn-primary">Email Us</button>
+  <!-- CTA -->
+  <section id="cta" class="py-20 px-4 text-center">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-4xl font-bold mb-6">Ready to Launch Your Site?</h2>
+      <p class="text-xl mb-8">Start with the Genesis Block. Build light. Build true. Build from the block.</p>
+      <div class="flex gap-4 justify-center flex-wrap">
+        <a href="{{ .Site.Params.repo }}" class="btn btn-primary btn-lg">Get Started</a>
+        <a href="https://gohugo.io/documentation/" class="btn btn-outline btn-lg">Hugo Docs</a>
+      </div>
+    </div>
   </section>
 {{ end }}
