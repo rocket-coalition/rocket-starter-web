@@ -587,13 +587,6 @@
   }
   
   /* Progressive enhancement: auto contrast when supported */
-  @supports (color: color-contrast(oklch(0 0 0) vs white, black)) {
-    :root,
-    [data-theme="rocket"] {
-      --on-primary: color-contrast(var(--primary-500) vs var(--color-white), var(--gray-900));
-      --on-secondary: color-contrast(var(--secondary-500) vs var(--color-white), var(--gray-900));
-    }
-  }
 
   :root,
   [data-theme="rocket"] {
