@@ -137,8 +137,10 @@
   }
   
   /* 🎯 MOBILE FIX #9: Smooth scroll behavior */
-  html {
-    scroll-behavior: smooth;
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
   
   /* 🎯 MOBILE FIX #10: Focus-visible (keyboard only, not touch) */
