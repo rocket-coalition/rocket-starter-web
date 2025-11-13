@@ -134,7 +134,6 @@
     -webkit-tap-highlight-color: transparent;
     
     /* 🎯 MOBILE FIX #9: Smooth momentum scrolling on iOS */
-    -webkit-overflow-scrolling: touch;
   }
   
   /* 🎯 MOBILE FIX #9: Smooth scroll behavior */
