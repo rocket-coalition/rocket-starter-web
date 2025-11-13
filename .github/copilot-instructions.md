@@ -201,11 +201,13 @@ hugo new content/mypage.md    # Uses archetype from archetypes/default.md
 
 ### CSS Architecture
 1. **Never edit `output.css`** (it's generated)
-2. **Add custom styles to `rocket-ui.css`** in appropriate `@layer` sections:
-   - `@layer tokens`: Design system variables
-   - `@layer layouts`: Grid structures
-   - `@layer components`: Reusable UI patterns
-   - `@layer utilities`: Single-purpose helpers
+2. **Add custom styles to `input.css`** in appropriate `@layer` sections.  
+   - ⚠️ `rocket-ui.css` is a shared framework file and should remain unchanged.  
+   - Use `input.css` to add or override styles in the following layers:
+     - `@layer tokens`: Design system variables
+     - `@layer layouts`: Grid structures
+     - `@layer components`: Reusable UI patterns
+     - `@layer utilities`: Single-purpose helpers
 3. **Use semantic tokens** (`var(--surface)`, `var(--fg)`) instead of raw colors (`var(--gray-100)`)
 4. **Theme-aware styling**: All layout/component styles should reference semantic tokens so they adapt to theme changes
 
