@@ -104,7 +104,6 @@
     color: var(--fg);
     background: var(--bg);
     line-height: var(--leading-normal);
-    text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     
