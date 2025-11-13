@@ -900,7 +900,6 @@
     
     .layout-sidebar { 
       display: none; /* Default: hidden on mobile */
-      /* TODO: Add .drawer class for slide-in navigation */
     }
     
     .layout-main { 
