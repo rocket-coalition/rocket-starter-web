@@ -1,0 +1,17 @@
+{
+  "name": "rocket-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server for Rocket Starter Web content management",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": ["mcp", "hugo", "content-management"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "js-yaml": "^4.1.0"
+  }
+}

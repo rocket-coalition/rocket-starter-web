@@ -20,6 +20,7 @@ site/.env
 
 node_modules/
 site/node_modules/
+mcp-server/node_modules/
 package-lock.json
 site/assets/css/output.css
 
