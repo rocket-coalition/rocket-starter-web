@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📚 Documentation
+    url: https://github.com/rocket-coalition/rocket-starter-web
+    about: Check the README and copilot-instructions.md for guidance
+  - name: 💬 Discussions
+    url: https://github.com/rocket-coalition/rocket-starter-web/discussions
+    about: Ask questions or share ideas

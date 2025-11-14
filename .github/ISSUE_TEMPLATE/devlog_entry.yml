@@ -1,0 +1,28 @@
+name: "📝 Dev Log Entry"
+description: Document development progress
+labels: [devlog]
+body:
+  - type: input
+    id: date
+    attributes:
+      label: Date
+      placeholder: "YYYY-MM-DD"
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: What Was Done
+      description: "Summary of work completed"
+    validations:
+      required: true
+  - type: textarea
+    id: next
+    attributes:
+      label: Next Steps
+      description: "What's coming next?"
+  - type: textarea
+    id: blockers
+    attributes:
+      label: Blockers or Issues
+      description: "Anything blocking progress?"
