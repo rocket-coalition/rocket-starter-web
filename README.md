@@ -37,3 +37,56 @@ each rocket sharper, lighter, and more intelligent than the last.
 This is that ignition.
 
 ───────────────────────────────────────────────────────────────
+
+## 🤖 MCP Integration — Automated Content Creation
+
+Rocket Starter Web now includes **MCP (Model Context Protocol) integration** for lightning-fast content publishing. Create and publish articles to your live site in under one minute using AI-powered tools.
+
+### Quick Start
+
+1. **Install dependencies**:
+   ```bash
+   cd mcp-server
+   npm install
+   ```
+
+2. **Configure your MCP client** (e.g., Claude Desktop):
+   ```json
+   {
+     "mcpServers": {
+       "rocket-content": {
+         "command": "node",
+         "args": ["/path/to/rocket-starter-web/mcp-server/index.js"],
+         "env": {
+           "CONTENT_PATH": "/path/to/rocket-starter-web/site/content"
+         }
+       }
+     }
+   }
+   ```
+
+3. **Create content via AI**:
+   > "Create a new blog post titled 'Getting Started' with description 'Learn the basics' and tags: tutorial, beginner"
+
+### Features
+
+- ✅ **Instant Content Creation**: Generate Hugo-compatible markdown files with proper front matter
+- ✅ **Section Management**: Organize content into blog, articles, docs, or custom sections
+- ✅ **Full Metadata Support**: Titles, descriptions, tags, categories, slugs, and more
+- ✅ **Draft Control**: Publish immediately or save as draft for review
+- ✅ **Fast Publishing**: From idea to live site in ~45-55 seconds
+
+### Documentation
+
+- **[MCP Server README](mcp-server/README.md)**: Complete API documentation and setup guide
+- **[Usage Examples](mcp-server/EXAMPLES.md)**: Integration patterns and example workflows
+
+### Publishing Timeline
+
+1. **Content Creation** (via MCP): ~5 seconds
+2. **Build Process**: ~6-10 seconds (CSS + Hugo)
+3. **Deployment** (Netlify/similar): ~30-40 seconds
+
+**Total: ~45-55 seconds from creation to live**
+
+───────────────────────────────────────────────────────────────

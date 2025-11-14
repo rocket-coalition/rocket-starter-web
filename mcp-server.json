@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "rocket-content": {
+      "command": "node",
+      "args": ["mcp-server/index.js"],
+      "description": "MCP server for Rocket Starter Web content management",
+      "env": {
+        "CONTENT_PATH": "./site/content"
+      }
+    }
+  }
+}
