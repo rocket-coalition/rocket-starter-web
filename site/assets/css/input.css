@@ -66,6 +66,101 @@
 
 
 /* -------------------------------------------------------------------
+ * Layout tuning: keep single-page variants fluid on narrow screens
+ * while allowing them to expand on desktops for media-heavy content.
+ * ------------------------------------------------------------------- */
+@layer tokens {
+  :root {
+    --layout-container-width: min(100%, 88rem);
+  }
+}
+
+/* -------------------------------------------------------------------
+ * Site frame & header refinements
+ * (Candidate for rocket-ui.css once stabilized)
+ * ------------------------------------------------------------------- */
+@layer layouts {
+  .layout-site-frame {
+    width: min(100%, var(--layout-max-width));
+    max-width: 100%;
+    padding-inline: clamp(1rem, 4vw, 2.5rem);
+  }
+
+  .layout-main {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  .layout-header {
+    padding-block: clamp(1rem, 3vw, 2rem);
+  }
+
+  .layout-header__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    width: 100%;
+    max-width: var(--layout-container-width);
+    margin-inline: auto;
+  }
+
+  .layout-header__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .layout-header__title {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-semibold);
+  }
+
+  .layout-header__tagline {
+    font-size: var(--text-sm);
+    color: var(--fg-muted);
+  }
+
+  .layout-header__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: var(--text-xs);
+  }
+
+  .layout-header__nav a {
+    padding-bottom: 0.2rem;
+    border-bottom: 1px solid transparent;
+    transition: color 150ms ease, border-color 150ms ease;
+  }
+
+  .layout-header__nav a:hover {
+    color: var(--action-primary);
+  }
+
+  .layout-header__nav a[aria-current="page"] {
+    color: var(--action-primary);
+    border-color: color-mix(in oklch, var(--action-primary) 65%, transparent);
+  }
+
+  @media (max-width: 640px) {
+    .layout-header__inner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .layout-header__nav {
+      width: 100%;
+      gap: 0.75rem;
+    }
+  }
+}
+
+
+/* -------------------------------------------------------------------
  * Generic two-column layout & meta structure
  * - Named to avoid conflicts with Rocket UI layout primitives.
  * ------------------------------------------------------------------- */
@@ -147,6 +242,141 @@
 }
 
 
+/* -------------------------------------------------------------------
+ * Token swatch components
+ * - Semantic layer for showcasing color ramps & metadata.
+ * ------------------------------------------------------------------- */
+@layer components {
+  .token-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .token-swatch {
+    position: relative;
+    padding: var(--space-5);
+    border-radius: var(--radius-xl);
+    background: var(--swatch-color, var(--surface));
+    color: var(--swatch-ink, var(--gray-900));
+    border: 1px solid color-mix(in oklch, var(--swatch-color, var(--surface)) 35%, transparent);
+    box-shadow: var(--shadow-xs);
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    transition: transform 180ms var(--motion-fast-out), box-shadow 220ms var(--motion-in-smooth);
+  }
+
+  .token-swatch:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .token-swatch__label {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    opacity: 0.8;
+  }
+
+  .token-swatch__value {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-semibold);
+    line-height: 1.25;
+    word-break: break-word;
+  }
+
+  .token-swatch__meta {
+    font-size: var(--text-sm);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 200ms ease, transform 200ms ease;
+  }
+
+  .token-swatch:hover .token-swatch__meta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* -------------------------------------------------------------------
+ * Multi-column content helper (front matter controlled)
+ * (Evaluate for rocket-ui.css promotion after testing)
+ * ------------------------------------------------------------------- */
+@layer components {
+  .content-columns {
+    column-gap: clamp(1.5rem, 3vw, 3rem);
+    column-rule: 1px solid color-mix(in oklch, var(--divider) 50%, transparent);
+    column-width: clamp(18rem, 32vw, 24rem);
+    column-fill: balance;
+    width: 100%;
+    max-width: min(100%, var(--layout-container-width));
+    margin-inline: auto;
+    overflow-x: clip;
+  }
+
+  .content-columns-one {
+    column-count: 1;
+  }
+
+  .content-columns-two,
+  .content-columns-three,
+  .content-columns-four {
+    column-count: 1;
+  }
+
+  @media (min-width: 900px) {
+    .content-columns-two,
+    .content-columns-three,
+    .content-columns-four {
+      column-count: 2;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .content-columns-three,
+    .content-columns-four {
+      column-count: 3;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    .content-columns-four {
+      column-count: 4;
+    }
+  }
+
+  .content-columns > * {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-top: 0;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .content-columns pre,
+  .content-columns table,
+  .content-columns figure,
+  .content-columns .content-span-all {
+    column-span: all;
+  }
+
+  .content-columns pre,
+  .content-columns table,
+  .content-columns figure {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
+
+@layer utilities {
+  .content-span-all {
+    column-span: all;
+  }
+}
+
 
 /* NOTE:
  * - If rocket-ui.css already provides similar utility classes for pills,
@@ -155,6 +385,3 @@
  * - These rules are safe defaults and can be tuned to match the design
  *   system while still being reusable beyond Rocket Pages.
  */
-
-
-

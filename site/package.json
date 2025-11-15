@@ -7,7 +7,7 @@
     "watch:css": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch",
     "build:css": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --minify",
 
-    "serve:hugo": "hugo server -D",
+    "serve:hugo": "hugo server -D --disableFastRender",
     "build:hugo": "hugo --gc --minify",
 
     "build": "npm run build:css && npm run build:hugo",

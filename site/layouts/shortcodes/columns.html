@@ -1,0 +1,4 @@
+{{ $page := .Page }}
+{{ $profile := or (.Get "profile") (.Get 0) ($page.Params.contentColumns) ($page.Params.contentLayout) "" }}
+{{ $inner := .Inner | markdownify }}
+{{ partial "content-columns.html" (dict "Page" $page "Content" $inner "Profile" $profile) }}

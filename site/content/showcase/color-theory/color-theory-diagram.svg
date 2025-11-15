@@ -1,0 +1,40 @@
+<svg width="640" height="360" viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad-primary" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#99a7ff"/>
+      <stop offset="100%" stop-color="#5f3fd4"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" rx="24" fill="#f6f8fb"/>
+  <rect x="36" y="40" width="160" height="120" rx="16" fill="#ffffff" stroke="#d9e1f5" stroke-width="2"/>
+  <rect x="240" y="40" width="160" height="120" rx="16" fill="#ffffff" stroke="#d9e1f5" stroke-width="2"/>
+  <rect x="444" y="40" width="160" height="120" rx="16" fill="#ffffff" stroke="#d9e1f5" stroke-width="2"/>
+
+  <text x="116" y="68" text-anchor="middle" font-family="Inter, sans-serif" font-size="16" fill="#667085">Inputs</text>
+  <text x="320" y="68" text-anchor="middle" font-family="Inter, sans-serif" font-size="16" fill="#667085">Ramps</text>
+  <text x="524" y="68" text-anchor="middle" font-family="Inter, sans-serif" font-size="16" fill="#667085">Semantic Roles</text>
+
+  <text x="56" y="95" font-family="JetBrains Mono, monospace" font-size="13" fill="#0f172a">--L-primary</text>
+  <text x="56" y="118" font-family="JetBrains Mono, monospace" font-size="13" fill="#0f172a">--C-primary</text>
+  <text x="56" y="141" font-family="JetBrains Mono, monospace" font-size="13" fill="#0f172a">--H-primary</text>
+
+  <text x="260" y="95" font-family="JetBrains Mono, monospace" font-size="13" fill="#0f172a">--primary-50</text>
+  <text x="260" y="118" font-family="JetBrains Mono, monospace" font-size="13" fill="#0f172a">…</text>
+  <text x="260" y="141" font-family="JetBrains Mono, monospace" font-size="13" fill="#0f172a">--primary-900</text>
+
+  <text x="464" y="95" font-family="JetBrains Mono, monospace" font-size="13" fill="#0f172a">--action-primary</text>
+  <text x="464" y="118" font-family="JetBrains Mono, monospace" font-size="13" fill="#0f172a">--surface-panel</text>
+  <text x="464" y="141" font-family="JetBrains Mono, monospace" font-size="13" fill="#0f172a">--focus-ring</text>
+
+  <path d="M196 100 H240" stroke="#c0c8e8" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M400 100 H444" stroke="#c0c8e8" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="100" y="220" width="440" height="20" rx="10" fill="url(#grad-primary)"/>
+  <text x="320" y="255" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" fill="#475467">Perceptual gradient propagates into UI semantics</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#c0c8e8"/>
+    </marker>
+  </defs>
+</svg>

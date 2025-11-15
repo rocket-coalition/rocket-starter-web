@@ -1,0 +1,21 @@
+{{ $page := or .Page . }}
+{{ $content := or .Content $page.Content }}
+{{ $profile := or .Profile (or $page.Params.contentColumns $page.Params.contentLayout "") }}
+{{ if not $profile }}
+  {{ $content | safeHTML }}
+{{ else }}
+  {{ $map := dict
+      "one-column" "content-columns-one"
+      "two-column" "content-columns-two"
+      "three-column" "content-columns-three"
+      "four-column" "content-columns-four"
+  }}
+  {{ $class := index $map $profile }}
+  {{ if not $class }}
+    {{ warnf "contentColumns \"%s\" is not a supported value on %s; falling back to one-column." $profile $page.File.Path }}
+    {{ $class = "content-columns-one" }}
+  {{ end }}
+  <div class="content-columns {{ $class }}">
+    {{ $content | safeHTML }}
+  </div>
+{{ end }}

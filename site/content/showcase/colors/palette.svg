@@ -1,0 +1,18 @@
+<svg width="640" height="360" viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .label { font: 14px "JetBrains Mono", "SFMono-Regular", Consolas, monospace; fill: #121212; }
+  </style>
+  <rect width="640" height="360" fill="#f8fafc"/>
+  <rect x="32" y="48" width="160" height="160" rx="12" fill="#04112a"/>
+  <rect x="240" y="48" width="160" height="160" rx="12" fill="#1e3a8a"/>
+  <rect x="448" y="48" width="160" height="160" rx="12" fill="#38bdf8"/>
+  <rect x="32" y="232" width="160" height="80" rx="12" fill="#0f172a" opacity="0.85"/>
+  <rect x="240" y="232" width="160" height="80" rx="12" fill="#1d4ed8" opacity="0.85"/>
+  <rect x="448" y="232" width="160" height="80" rx="12" fill="#0ea5e9" opacity="0.85"/>
+  <text class="label" x="112" y="146" text-anchor="middle" fill="#f1f5f9">Core</text>
+  <text class="label" x="320" y="146" text-anchor="middle" fill="#e2e8f0">Primary</text>
+  <text class="label" x="528" y="146" text-anchor="middle" fill="#0f172a">Accent</text>
+  <text class="label" x="112" y="276" text-anchor="middle" fill="#e2e8f0">Surface</text>
+  <text class="label" x="320" y="276" text-anchor="middle" fill="#e0f2fe">Action</text>
+  <text class="label" x="528" y="276" text-anchor="middle" fill="#082f49">Support</text>
+</svg>

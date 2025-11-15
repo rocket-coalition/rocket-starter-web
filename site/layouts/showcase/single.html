@@ -1,0 +1,13 @@
+{{ define "main" }}
+  <section class="surface-panel space-y-8">
+    <header class="space-y-2">
+      <p class="text-sm uppercase tracking-[0.3em] text-neutral-500">Showcase</p>
+      <h1 class="text-4xl font-bold">{{ .Title }}</h1>
+      {{ with .Description }}
+        <p class="text-lg text-neutral-400">{{ . }}</p>
+      {{ end }}
+    </header>
+
+    {{ partial "content-columns.html" (dict "Page" . "Content" .Content) }}
+  </section>
+{{ end }}

@@ -1,5 +1,13 @@
 {{ $theme := or (index .Params "data-theme") (index .Site.Params "data-theme") "rocket" }}
 {{ $density := or (index .Params "data-density") (index .Site.Params "data-density") "normal" }}
+{{ $layoutVariant := or (index .Params "layoutVariant") (index .Site.Params "layoutVariant") "landing" }}
+{{ $layoutClass := "layout-landing-page" }}
+{{ if eq $layoutVariant "single" }}
+  {{ $layoutClass = "layout-single-page" }}
+{{ else if eq $layoutVariant "multi" }}
+  {{ $layoutClass = "layout-multi-page" }}
+{{ end }}
+{{ $page := . }}
 <!doctype html>
 <html lang="en" data-theme="{{ $theme }}" data-density="{{ $density }}">
   <head>
@@ -26,11 +34,26 @@
   <body>
 
     <!-- Semantic wrapper for global site context -->
-    <div class="layout-site-frame layout-landing-page">
+    <div class="layout-site-frame {{ $layoutClass }}">
 
-      <header class="layout-header" role="banner">
-        <div class="flex items-center justify-center py-4">
-          <h1 class="text-xl font-semibold">{{ .Site.Title }}</h1>
+      <header class="layout-header border-b border-base-200" role="banner">
+        <div class="layout-header__inner">
+          <div class="layout-header__brand">
+            <a class="layout-header__title" href="{{ "/" | relLangURL }}">{{ .Site.Title }}</a>
+            {{ with .Site.Params.description }}
+              <p class="layout-header__tagline">{{ . }}</p>
+            {{ end }}
+          </div>
+          {{ with .Site.Menus.main }}
+            <nav class="layout-header__nav" aria-label="Primary">
+              {{ $current := $page }}
+              {{ range . }}
+                {{ $url := .URL | relLangURL }}
+                {{ $isActive := or ($current.IsMenuCurrent "main" .) ($current.HasMenuCurrent "main" .) }}
+                <a href="{{ $url }}" {{ if $isActive }}aria-current="page"{{ end }}>{{ .Name }}</a>
+              {{ end }}
+            </nav>
+          {{ end }}
         </div>
       </header>
 
