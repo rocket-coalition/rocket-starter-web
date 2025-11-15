@@ -12,6 +12,9 @@ params:
   description: "The Genesis starter for all Rocket-powered web sites."
   author: "Raiford Brookshire"
   repo: "https://github.com/rocket-coalition/rocket-starter-web"
+  # UI theming hooks (applied to the root data-* attributes, not Hugo themes)
+  data-theme: "rocket"
+  data-density: "normal"
 
 
 markup:
@@ -22,6 +25,8 @@ markup:
 taxonomies:
   tag: "tags"
   category: "categories"
+  rocket-tag: "rocket-tags"
+  rocket-category: "rocket-categories"
 
 outputs:
   home: ["HTML", "RSS", "JSON"]

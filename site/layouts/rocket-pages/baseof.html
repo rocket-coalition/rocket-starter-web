@@ -15,19 +15,13 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ .Permalink }}">
     <meta property="og:image" content="{{ .Site.BaseURL }}images/og-image.png">
-    <!-- Twitter Card tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ .Title }}">
     <meta name="twitter:description" content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
     <meta name="twitter:image" content="{{ .Site.BaseURL }}images/og-image.png">
-
   </head>
-
   <body>
-
-    <!-- Semantic wrapper for global site context -->
     <div class="layout-site-frame layout-landing-page">
-
       <header class="layout-header" role="banner">
         <div class="flex items-center justify-center py-4">
           <h1 class="text-xl font-semibold">{{ .Site.Title }}</h1>
@@ -35,7 +29,21 @@
       </header>
 
       <main id="content" class="layout-main" role="main">
-        {{ block "main" . }}{{ end }}
+        <div class="content-grid">
+          <aside class="content-sidebar surface-panel">
+            {{ block "rocket-sidebar" . }}{{ end }}
+          </aside>
+
+          <section class="content-stack">
+            <article class="content-primary surface-panel">
+              {{ block "rocket-main" . }}{{ end }}
+            </article>
+
+            <div class="content-meta surface-panel surface-panel-muted">
+              {{ block "rocket-meta" . }}{{ end }}
+            </div>
+          </section>
+        </div>
       </main>
 
       <footer class="layout-footer" role="contentinfo">
@@ -44,6 +52,5 @@
         </div>
       </footer>
     </div>
-
   </body>
 </html>

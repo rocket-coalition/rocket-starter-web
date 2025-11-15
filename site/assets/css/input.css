@@ -65,4 +65,96 @@
 /* Add your custom styles below this line */
 
 
+/* -------------------------------------------------------------------
+ * Generic two-column layout & meta structure
+ * - Named to avoid conflicts with Rocket UI layout primitives.
+ * ------------------------------------------------------------------- */
+
+.content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
+  gap: 2rem;
+}
+
+.content-sidebar {
+  position: sticky;
+  top: 4rem;
+  align-self: start;
+}
+
+.content-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.content-primary {
+  min-height: 0; /* Allow nested flex/grid children to size correctly */
+}
+
+.content-meta {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+}
+
+/* -------------------------------------------------------------------
+ * Generic list & pill styling
+ * - For lists of pages, tags, metadata.
+ * - Designed to be usable in blog lists, docs lists, etc.
+ * ------------------------------------------------------------------- */
+
+.page-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.page-list-item {
+  margin-bottom: 1.25rem;
+}
+
+.pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  list-style: none;
+}
+
+.pill {
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--divider);
+}
+
+/* -------------------------------------------------------------------
+ * Shared surface/panel helpers for contrasted sections
+ * ------------------------------------------------------------------- */
+
+.surface-panel {
+  background: var(--surface);
+  border: 1px solid var(--divider);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+
+.surface-panel-muted {
+  background: color-mix(in oklch, var(--surface) 85%, transparent);
+}
+
+
+
+/* NOTE:
+ * - If rocket-ui.css already provides similar utility classes for pills,
+ *   grid layouts, or sticky sidebars, prefer those instead of adding
+ *   more global CSS.
+ * - These rules are safe defaults and can be tuned to match the design
+ *   system while still being reusable beyond Rocket Pages.
+ */
+
+
 

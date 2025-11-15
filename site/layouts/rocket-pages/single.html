@@ -1,0 +1,40 @@
+{{ define "rocket-sidebar" }}
+  <nav>
+    <h2>On this page</h2>
+    {{ .TableOfContents }}
+  </nav>
+{{ end }}
+
+{{ define "rocket-main" }}
+INSIDE SINGLE.HTML
+  <header>
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.description }}
+      <p>{{ . }}</p>
+    {{ end }}
+  </header>
+
+  <section>
+    {{ .Content }}
+  </section>
+{{ end }}
+
+{{ define "rocket-meta" }}
+  {{ with index .Params "rocket-tag" }}
+    <div>
+      <h2>Rocket tags</h2>
+      <ul class="pill-list">
+        {{ range . }}
+          <li class="pill">{{ . }}</li>
+        {{ end }}
+      </ul>
+    </div>
+  {{ end }}
+
+  {{ with index .Params "rocket-category" }}
+    <div>
+      <h3>Rocket category</h3>
+      <p>{{ . }}</p>
+    </div>
+  {{ end }}
+{{ end }}

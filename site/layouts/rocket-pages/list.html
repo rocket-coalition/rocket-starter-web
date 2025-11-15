@@ -1,0 +1,45 @@
+{{ define "rocket-sidebar" }}
+  <nav>
+    <h2>Rocket Pages</h2>
+    <ul class="page-list">
+      {{ range .Pages.ByWeight }}
+        <li class="page-list-item">
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        </li>
+      {{ end }}
+    </ul>
+  </nav>
+{{ end }}
+
+{{ define "rocket-main" }}
+  <header>
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.description }}
+      <p>{{ . }}</p>
+    {{ end }}
+  </header>
+
+  <section>
+    <ul class="page-list">
+      {{ range .Pages.ByWeight }}
+        <li class="page-list-item">
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          {{ with .Params.description }}
+            <p>{{ . }}</p>
+          {{ end }}
+
+          {{ with index .Params "rocket-tag" }}
+            <ul class="pill-list">
+              {{ range . }}
+                <li class="pill">{{ . }}</li>
+              {{ end }}
+            </ul>
+          {{ end }}
+        </li>
+      {{ end }}
+    </ul>
+  </section>
+{{ end }}
+
+{{ define "rocket-meta" }}
+{{ end }}

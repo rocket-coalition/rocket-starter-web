@@ -80,6 +80,15 @@ Drafts are visible in development (`buildDrafts: true` in config.yaml).
 
 ---
 
+## RUN WEBSITE FROM COMMAND PROMPT
+In the package.json you will see defniitions and the command to run both tailwind to compile the CSS and run hugo has a short cut called **start**
+
+So the comment to run is from the site subfolder **NOT** the root folder so
+```
+cd site // change to site folder
+npm start
+```
+
 ## DIRECTORY STRUCTURE
 Root directory is the working environment. Most development on the site happens inside `/site`.
 ```
@@ -700,3 +709,18 @@ hugo new content/mypage.md    # Uses archetype from archetypes/default.md
 - **DaisyUI Components**: https://daisyui.com/components/
 - **OKLCH Color Picker**: https://oklch.com/
 - **Repo**: https://github.com/rocket-coalition/rocket-starter-web
+
+---
+
+## CHANGELOG ENTRY INSTRUCTIONS
+When instructed to add or update the `CHANGELOG.md`, use the following format for each entry:
+
+- **Date** (YYYY-MM-DD)
+- **Developer/Author**
+- **Version** (if applicable)
+- **Section/Feature**
+- **Change Description**
+- **Issue/PR Reference** (if relevant)
+- **Impact/Notes** (optional)
+
+Do NOT auto-generate changelog entries. Only update when explicitly instructed, and always follow this format for clarity and traceability.
