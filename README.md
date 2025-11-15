@@ -36,4 +36,18 @@ each rocket sharper, lighter, and more intelligent than the last.
 **Every launch begins with one ignition.**  
 This is that ignition.
 
-───────────────────────────────────────────────────────────────
+
+
+
+
+
+---
+
+# Developer Environment Setup
+
+## Commit Message Template
+Use `.gitmessage.txt` for every commit. Set it up once:
+
+```cmd
+git config --local commit.template .gitmessage.txt
+```

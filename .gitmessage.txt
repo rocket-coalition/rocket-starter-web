@@ -1,0 +1,27 @@
+<type>(<scope>): <summary>
+# Examples:
+#   feat(rocket-pages): add toc sidebar
+#   fix(css): correct sticky offset
+#   docs(repo): update readme intro
+#   style(ui): normalize spacing
+#   refactor(api): simplify helper function
+#   chore(repo): update git commit template
+#   perf(toc): speed up heading parsing
+#   build(npm): update build script
+#   ci(pipeline): add commit linting
+
+
+What:
+- What changed?
+  # e.g. "Added TOC layout" / "Updated commit template"
+
+
+Why:
+- Why was it changed?
+  # e.g. "Needed consistent layout" / "Make commits intuitive"
+
+
+Impact:
+- Any side effects, migrations, or notable implications?
+  # e.g. "No breaking changes"
+  # e.g. "Developers must pull template update"
