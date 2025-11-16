@@ -13,14 +13,14 @@ params:
   author: "Raiford Brookshire"
   repo: "https://github.com/rocket-coalition/rocket-starter-web"
   # UI theming hooks (applied to the root data-* attributes, not Hugo themes)
-  data-theme: "rocket-dark"
+  data-theme: "blueprint"
   data-density: "normal"
 
 
 markup:
   goldmark:
     renderer:
-      unYsafe: true
+      unsafe: true
 
 taxonomies:
   tag: "tags"
@@ -46,3 +46,15 @@ menus:
     - name: "Showcase / Color Theory"
       url: "/showcase/color-theory/"
       weight: 30
+    - name: "Showcase / Themes"
+      url: "/showcase/themes/"
+      weight: 35
+    - name: "Showcase / Theme Test"
+      url: "/showcase/theme-test/"
+      weight: 40
+    - name: "Showcase / Theme Primitives"
+      url: "/showcase/theme-primitive/"
+      weight: 45
+    - name: "Showcase / Theme Diagnostics"
+      url: "/showcase/test2/"
+      weight: 50

@@ -1,27 +1,55 @@
-﻿Folder structure for: D:\RocketRepos\rocket-starter-web\utils\..\site
+Folder structure for: D:\RocketRepos\rocket-starter-web\utils\..\site
 Excluded: node_modules, public, resources, .git, .hugo_cache, _cache, .bin, dist, coverage, tmp
 
+|-- archetypes
+    |-- default.md
+    |-- rocket-pages.md
+|-- assets
+    |-- css
+        |-- input.css
+        |-- output.css
+        |-- rocket-ui.css
+|-- content
+    |-- about
+        |-- index.md
+    |-- faq
+        |-- index.md
+    |-- rocket-pages
+        |-- _index.md
+        |-- essence.md
+        |-- example-rocket-page.md
+    |-- showcase
+        |-- color-theory
+            |-- color-theory-diagram.svg
+            |-- index.md
+        |-- colors
+            |-- index.md
+            |-- palette.svg
+    |-- _index.md
+|-- data
 |-- i18n
 |-- layouts
     |-- _default
-        |-- single.html
         |-- baseof.html
+        |-- single.html
+    |-- partials
+        |-- content-columns.html
+    |-- rocket-pages
+        |-- baseof.html
+        |-- list.html
+        |-- single.html
+    |-- shortcodes
+        |-- columns.html
+    |-- showcase
+        |-- single.html
+    |-- 404.html
     |-- index.html
 |-- static
-|-- data
-|-- archetypes
-    |-- default.md
-|-- assets
-    |-- css
-        |-- output.css
-        |-- input.css
-|-- content
-    |-- faq
-        |-- index.md
-    |-- about
-        |-- index.md
-    |-- _index.md
+    |-- robots.txt
+|-- .env
+|-- .env.example
+|-- .hugo_build.lock
+|-- config.yaml
+|-- netlify.toml
 |-- package-lock.json
 |-- package.json
-|-- .hugo_build.lock
-|-- hugo.toml

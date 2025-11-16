@@ -62,11 +62,16 @@
       </main>
 
       <footer class="layout-footer" role="contentinfo">
-        <div class="text-center py-4 text-sm">
-          © {{ now.Format "2006" }} {{ .Site.Title }}. All rights reserved.
+        <div class="text-center py-4 text-sm flex flex-col gap-2">
+          <p>c {{ now.Format "2006" }} {{ .Site.Title }}. All rights reserved.</p>
+          <p class="text-xs opacity-70">
+            Debug: theme=<code class="badge badge-neutral">{{ $theme }}</code>,
+            density=<code class="badge badge-neutral">{{ $density }}</code>
+          </p>
         </div>
       </footer>
     </div>
 
   </body>
 </html>
+

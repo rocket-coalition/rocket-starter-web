@@ -385,3 +385,66 @@
  * - These rules are safe defaults and can be tuned to match the design
  *   system while still being reusable beyond Rocket Pages.
  */
+
+/* -------------------------------------------------------------------
+ * Theme Tokens · Blueprint (site-level light baseline experiment)
+ * Scope: data-theme="blueprint" (set via config params)
+ * Intent: crisp white surfaces, cobalt primaries, tangerine secondary accent.
+ * ------------------------------------------------------------------- */
+@layer tokens {
+  [data-theme="blueprint"] {
+    /* Primary ramp (cobalt) */
+    --L-primary: 0.67;
+    --C-primary: 0.19;
+    --H-primary: 242deg;
+
+    /* Secondary ramp (soft orange) */
+    --L-secondary: 0.74;
+    --C-secondary: 0.18;
+    --H-secondary: 70deg;
+
+    /* Surface + typography remap to keep blueprint airy */
+    --bg: oklch(0.98 0.01 240);
+    --bg-alt: oklch(0.95 0.01 240);
+    --surface: oklch(0.99 0.008 250);
+    --surface-hover: oklch(0.97 0.015 250);
+
+    --fg: oklch(0.39437 0.03065 246.848);
+    --fg-muted: oklch(0.58917 0.002 248.621);
+    --heading: oklch(0.38395 0.10549 255.578);
+
+
+    /* Structural lines */
+    --border: oklch(0.90 0.005 250);
+    --border-strong: oklch(0.78 0.02 250);
+    --divider: oklch(0.93 0.003 240);
+
+    /* On-color pairings */
+    --on-primary: var(--color-white);
+    --on-secondary: var(--color-white);
+
+    /* DaisyUI bridge so component tokens follow blueprint palette */
+    --color-base-100: var(--bg);
+    --color-base-200: var(--bg-alt);
+    --color-base-300: var(--surface);
+    --color-base-content: var(--fg);
+
+    --color-primary: var(--primary-500);
+    --color-primary-content: var(--on-primary);
+    --color-secondary: var(--secondary-500);
+    --color-secondary-content: var(--on-secondary);
+    --color-accent: color-mix(in oklch, var(--secondary-400) 60%, var(--primary-300) 40%);
+    --color-accent-content: var(--on-secondary);
+    --color-neutral: var(--fg);
+    --color-neutral-content: var(--bg);
+
+    --color-info: var(--info);
+    --color-info-content: var(--bg);
+    --color-success: var(--success);
+    --color-success-content: var(--bg);
+    --color-warning: var(--warning);
+    --color-warning-content: var(--fg);
+    --color-error: var(--error);
+    --color-error-content: var(--bg);
+  }
+}
