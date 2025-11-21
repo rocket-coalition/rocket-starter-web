@@ -1,0 +1,60 @@
+{{ define "rocket-main-header" }}
+  <p class="text-xs uppercase tracking-[0.4em] text-neutral-500">Rocket Console</p>
+  <h1 class="text-3xl font-semibold text-neutral-900">{{ .Title }}</h1>
+  {{ with .Params.description }}
+    <p class="mt-2 text-neutral-600">{{ . }}</p>
+  {{ end }}
+{{ end }}
+
+{{ define "rocket-main-toolbar" }}
+  <div class="badge badge-ghost">Console Build: {{ .Site.Title }}</div>
+  <div class="badge badge-ghost">Pages: {{ len .Pages }}</div>
+  <div class="badge badge-ghost">Generated {{ now.Format "15:04 MST" }}</div>
+{{ end }}
+
+{{ define "rocket-main-content" }}
+  <section class="content-section">
+    <div class="grid gap-6 lg:grid-cols-2">
+      {{ range .Pages.ByWeight }}
+        <article class="card card-elevated">
+          <p class="text-xs uppercase tracking-[0.3em] text-neutral-500">
+            {{ with .Params.rocket_label }}{{ . }}{{ else }}Console{{ end }}
+          </p>
+          <h3 class="mt-1 text-xl font-semibold text-neutral-900">{{ .Title }}</h3>
+          {{ with .Params.description }}
+            <p class="mt-3 text-neutral-600">{{ . }}</p>
+          {{ end }}
+          <div class="mt-6 flex flex-wrap items-center gap-4 text-sm text-neutral-500">
+            <a class="btn btn-primary btn-sm" href="{{ .RelPermalink }}">Open</a>
+            <span>{{ .RelPermalink }}</span>
+            {{ with .Params.rocket_status }}
+              <span class="badge badge-outline text-xs uppercase tracking-wide">{{ . }}</span>
+            {{ end }}
+          </div>
+        </article>
+      {{ end }}
+    </div>
+  </section>
+
+  <section class="content-section content-article">
+    {{ .Content }}
+  </section>
+{{ end }}
+
+{{ define "rocket-rightbar" }}
+  <div class="card">
+    <p class="text-xs uppercase tracking-[0.4em] text-neutral-500">Admin Reminders</p>
+    <ul class="mt-4 space-y-3 text-sm text-neutral-600">
+      <li>Use `/rocket/css` to verify every theme tweak before release.</li>
+      <li>Keep this section draft-only when sharing outside the team.</li>
+      <li>Document major overrides inside <code>site/assets/css/input.css</code>.</li>
+    </ul>
+  </div>
+  <div class="card mt-6">
+    <p class="text-xs uppercase tracking-[0.4em] text-neutral-500">AI Prompt</p>
+    <p class="mt-3 text-sm text-neutral-600">
+      “You are designing for the Rocket CSS framework. Only use the layout zones (.layout-header,
+      .layout-views, .view-main, .main-content). Output overrides in site/assets/css/input.css.”
+    </p>
+  </div>
+{{ end }}

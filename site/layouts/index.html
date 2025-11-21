@@ -1,3 +1,5 @@
+{{- $theme := or (index .Params "data-theme") (index .Site.Params "data-theme") "rocket" -}}
+{{- $density := or (index .Params "data-density") (index .Site.Params "data-density") "normal" -}}
 {{ define "main" }}
   <!-- HERO -->
   <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center gap-6 px-4">

@@ -1,0 +1,53 @@
+{{ define "rocket-main-header" }}
+  <p class="text-xs uppercase tracking-[0.4em] text-neutral-500">Rocket Layouts</p>
+  <h1 class="text-3xl font-semibold text-neutral-900">{{ .Title }}</h1>
+  <p class="mt-2 text-neutral-600">{{ .Params.description }}</p>
+{{ end }}
+
+{{ define "rocket-main-toolbar" }}
+  <div class="console-chip-group">
+    <span class="console-chip">Route: {{ .RelPermalink }}</span>
+    <span class="console-chip">Theme: {{ (or (index .Params "data-theme") (index .Site.Params "data-theme")) }}</span>
+    {{ with .Params.rocket_status }}
+      <span class="console-chip console-chip--status">{{ . }}</span>
+    {{ end }}
+  </div>
+{{ end }}
+
+{{ define "rocket-main-content" }}
+  <section class="console-section">
+    <div class="layout-gallery">
+      <article class="layout-card layout-card--light">
+        <p class="layout-eyebrow">Landing</p>
+        <div class="layout-wireframe landing">
+          <header></header>
+          <div class="hero"></div>
+          <div class="grid">
+            <div></div><div></div><div></div>
+          </div>
+          <footer></footer>
+        </div>
+      </article>
+      <article class="layout-card layout-card--light">
+        <p class="layout-eyebrow">Dashboard</p>
+        <div class="layout-wireframe dashboard">
+          <aside></aside>
+          <main></main>
+        </div>
+      </article>
+      <article class="layout-card layout-card--light">
+        <p class="layout-eyebrow">Reading</p>
+        <div class="layout-wireframe reading">
+          <div class="content"></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="console-section">
+    <article class="console-panel">
+      <div class="console-panel-title">Hello World</div>
+      <p class="console-panel-body">This page will evolve into the pristine layout showcase. For now it simply proves the route is wired correctly.</p>
+    </article>
+  </section>
+{{ end }}

@@ -1,0 +1,240 @@
+{{ define "rocket-main-header" }}
+  <p class="text-xs uppercase tracking-[0.4em] text-neutral-500">
+    {{ with .Params.rocket_label }}{{ . }}{{ else }}Rocket Console{{ end }}
+  </p>
+  <h1 class="text-3xl font-semibold text-neutral-900">{{ .Title }}</h1>
+  {{ with .Params.description }}
+    <p class="mt-2 text-neutral-600">{{ . }}</p>
+  {{ end }}
+{{ end }}
+
+{{ define "rocket-main-toolbar" }}
+  <div class="console-chip-group">
+    <span class="console-chip">
+      Route: {{ .RelPermalink }}
+    </span>
+    <span class="console-chip">
+      Theme:
+      {{ with (index .Params "data-theme") }}
+        {{ . }}
+      {{ else }}
+        {{ or (index .Site.Params "data-theme") "rocket" }}
+      {{ end }}
+    </span>
+    {{ with .Params.rocket_status }}
+      <span class="console-chip console-chip--status">{{ . }}</span>
+    {{ end }}
+  </div>
+{{ end }}
+
+{{ define "rocket-main-content" }}
+  {{ if eq .File.BaseFileName "css" }}
+    {{ $themeName := or (index .Params "data-theme") (or (index .Site.Params "data-theme") "rocket") }}
+    {{ $tones := slice "50" "100" "200" "300" "400" "500" "600" "700" "800" "900" }}
+    {{ $palettes := slice
+        (dict "label" "Primary" "prefix" "primary" "copy" "Brand-driving hue for CTAs and links.")
+        (dict "label" "Secondary" "prefix" "secondary" "copy" "Supportive actions and highlights.")
+        (dict "label" "Accent" "prefix" "accent" "copy" "Use sparingly for toggles or alerts.")
+    }}
+    {{ $semanticTokens := slice
+        (dict "token" "--surface-shell" "label" "Surface Shell" "desc" "App chrome + shells")
+        (dict "token" "--surface-card" "label" "Card Base" "desc" "Default cards & panels")
+        (dict "token" "--text-primary" "label" "Text Primary" "desc" "Body copy color")
+        (dict "token" "--border-default" "label" "Border Default" "desc" "Dividers & strokes")
+    }}
+    {{ $spacing := slice "space-2" "space-4" "space-6" "space-8" "space-12" }}
+    {{ $last := .Lastmod }}
+
+    <section class="console-hero">
+      <div class="console-hero-main">
+        <p class="console-eyebrow">Theme Pulse</p>
+        <h1 class="console-hero-title">{{ .Title }}</h1>
+        <p class="console-subtitle">
+          Live rendering of tokens from <code>site/assets/css/input.css</code>. If it looks correct here,
+          it ships correct everywhere.
+        </p>
+        <div class="console-chip-group">
+          <span class="console-chip">Route: {{ .RelPermalink }}</span>
+          <span class="console-chip">Theme: {{ $themeName }}</span>
+          <span class="console-chip">Density: {{ or (index .Params "data-density") (index .Site.Params "data-density") }}</span>
+          {{ with .Params.rocket_status }}
+            <span class="console-chip console-chip--status">{{ . }}</span>
+          {{ end }}
+        </div>
+      </div>
+      <div class="console-hero-meta">
+        <div class="console-meta-card">
+          <p class="console-pill-label">Theme Name</p>
+          <p class="console-hero-metric">{{ $themeName }}</p>
+        </div>
+        <div class="console-meta-card">
+          <p class="console-pill-label">Last Updated</p>
+          {{ if ne (printf "%s" $last) "0001-01-01 00:00:00 +0000 UTC" }}
+            <p class="console-hero-metric">{{ $last.Format "Jan 02, 2006" }}</p>
+          {{ else }}
+            <p class="console-hero-metric">{{ now.Format "Jan 02, 2006" }}</p>
+          {{ end }}
+        </div>
+      </div>
+    </section>
+
+    <section class="console-section">
+      <div class="console-spectrum-grid">
+        {{ range $palettes }}
+          {{ $palette := . }}
+          <article class="console-panel console-spectrum">
+            <div class="console-panel-title">{{ $palette.label }} Spectrum</div>
+            <div class="console-spectrum-swatches">
+              {{ range $tones }}
+                <div class="console-tone" style="background: var(--color-{{ $palette.prefix }}-{{ . }});">
+                  {{ . }}
+                </div>
+              {{ end }}
+            </div>
+            <p class="console-panel-body">{{ $palette.copy }}</p>
+          </article>
+        {{ end }}
+      </div>
+    </section>
+
+    <section class="console-section console-grid">
+      <article class="console-panel">
+        <div class="console-panel-title">Semantic Tokens</div>
+        <ul class="console-token-list">
+          {{ range $semanticTokens }}
+            <li>
+              <p class="console-token-label">{{ .label }}</p>
+              <p class="console-token-value"><code>{{ .token }}</code></p>
+              <p class="console-token-desc">{{ .desc }}</p>
+            </li>
+          {{ end }}
+        </ul>
+      </article>
+      <article class="console-panel">
+        <div class="console-panel-title">Typography Stack</div>
+        <div class="console-type-stack">
+          <p class="console-type-sample text-4xl font-semibold">Display · Space Grotesk</p>
+          <p class="console-type-sample text-2xl font-semibold">Heading · Inter / sans</p>
+          <p class="console-type-sample text-base">Body · var(--font-body)</p>
+          <p class="console-panel-body">Typography inherits from Rocket primitives; override in <code>@layer primitives</code>.</p>
+        </div>
+      </article>
+      <article class="console-panel">
+        <div class="console-panel-title">Spacing Scale</div>
+        <ul class="console-spacing-list">
+          {{ range $spacing }}
+            <li>
+              <span><code>--{{ . }}</code></span>
+              <span class="console-spacing-bar" style="--bar-size: var(--{{ . }});"></span>
+            </li>
+          {{ end }}
+        </ul>
+      </article>
+    </section>
+
+    <section class="console-section console-grid">
+      <article class="console-panel">
+        <div class="console-panel-title">Buttons</div>
+        <p class="console-panel-body">Direct render of Rocket button classes.</p>
+        <div class="console-button-demo">
+          <button class="btn btn-primary">Primary</button>
+          <button class="btn btn-secondary">Secondary</button>
+          <button class="btn btn-accent">Accent</button>
+          <button class="btn btn-ghost">Ghost</button>
+          <button class="btn btn-link">Link</button>
+          <button class="btn btn-outline">Outline</button>
+        </div>
+      </article>
+
+      <article class="console-panel">
+        <div class="console-panel-title">Surface Cards</div>
+        <div class="console-mini-card-grid">
+          <div class="console-mini-card">
+            <p class="console-eyebrow">card</p>
+            <p class="console-panel-body">Uses --surface-card + shadow-sm</p>
+          </div>
+          <div class="console-mini-card">
+            <p class="console-eyebrow">card-elevated</p>
+            <p class="console-panel-body">Uses --surface-card-elevated + shadow-lg</p>
+          </div>
+          <div class="console-mini-card">
+            <p class="console-eyebrow">badges</p>
+            <div class="console-badge-row">
+              <span class="badge badge-primary">Primary</span>
+              <span class="badge badge-secondary">Secondary</span>
+              <span class="badge badge-ghost">Ghost</span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="console-section">
+      <div class="console-pill-grid">
+        <div class="console-pill">
+          <p class="console-pill-label">.layout-header</p>
+          <p class="console-pill-value">Sticky shell with blur, nav, and actions.</p>
+        </div>
+        <div class="console-pill">
+          <p class="console-pill-label">.layout-views</p>
+          <p class="console-pill-value">Grid orchestrating sidebar / main / rightbar.</p>
+        </div>
+        <div class="console-pill">
+          <p class="console-pill-label">.view-main → .main-content</p>
+          <p class="console-pill-value">Nested grid for header, toolbar, scroll region.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="console-section">
+      <article class="console-panel console-panel-dark">
+        <p class="console-panel-title text-neutral-100">AI Prompt Snippet</p>
+        <p class="console-panel-body text-neutral-100">
+          Use this snippet verbatim when asking an AI copilot to adjust theming.
+        </p>
+        <pre class="console-prompt"><code>You are updating the Rocket CSS theme.
+Only touch site/assets/css/input.css using @layer primitives, semantics, themes, components, utilities.
+Respect layout zones: .layout-header, .layout-views, .view-main, .main-content.
+Preview changes on /rocket/css before handoff.</code></pre>
+      </article>
+    </section>
+  {{ else }}
+    <article class="content-section content-article">
+      {{ .Content }}
+    </article>
+  {{ end }}
+{{ end }}
+
+{{ define "rocket-main-footer" }}
+  Last reviewed {{ .Lastmod.Format "Jan 02, 2006 15:04 MST" }} | Author: {{ .Site.Params.author }}
+{{ end }}
+
+{{ define "rocket-rightbar" }}
+  {{ if eq .File.BaseFileName "css" }}
+    <div class="console-card">
+      <div class="console-section-heading">Token Quick Copy</div>
+      <ul class="console-list">
+        <li><code>--primary-l</code>: <span class="text-neutral-900">0-1 lightness</span></li>
+        <li><code>--surface-shell</code>: <span class="text-neutral-900">Base application background</span></li>
+        <li><code>--text-primary</code>: <span class="text-neutral-900">Body copy color</span></li>
+        <li><code>--interactive-normal</code>: <span class="text-neutral-900">Primary button default</span></li>
+      </ul>
+    </div>
+    <div class="console-card console-card-dark mt-6">
+      <p class="console-section-heading text-neutral-100">AI Prompt</p>
+      <pre class="console-prompt"><code>Use Rocket CSS layout zones.
+Only override tokens in site/assets/css/input.css.
+Preview updates at /rocket/css before publishing.</code></pre>
+    </div>
+  {{ else }}
+    <div class="console-card">
+      <p class="console-section-heading">Page Info</p>
+      <ul class="console-list">
+        <li>Status: {{ with .Params.rocket_status }}{{ . }}{{ else }}Draft{{ end }}</li>
+        <li>Weight: {{ .Weight }}</li>
+        <li>URL: {{ .RelPermalink }}</li>
+      </ul>
+    </div>
+  {{ end }}
+{{ end }}
+

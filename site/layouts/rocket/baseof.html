@@ -1,0 +1,156 @@
+{{- $theme := or (index .Params "data-theme") (index .Site.Params "data-theme") "rocket" -}}
+{{- $density := or (index .Params "data-density") (index .Site.Params "data-density") "normal" -}}
+{{- .Scratch.Set "rocket_theme" $theme -}}
+{{- .Scratch.Set "rocket_density" $density -}}
+{{- $showRightbar := or (index .Params "rocket_rightbar") (index .Site.Params "rocket_rightbar") -}}
+<!doctype html>
+<html lang="en" data-theme="{{ .Scratch.Get "rocket_theme" }}" data-density="{{ .Scratch.Get "rocket_density" }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ printf "%s · Rocket Console" .Title }}</title>
+
+    {{ $css := resources.Get "css/output.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+
+    {{ $pageDescription := cond (isset .Params "description") .Params.description .Site.Params.description }}
+    <meta property="og:title" content="{{ .Title }} · Rocket Console">
+    <meta property="og:description" content="{{ $pageDescription }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ .Permalink }}">
+    <meta property="og:image" content="{{ .Site.BaseURL }}images/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ .Title }} · Rocket Console">
+    <meta name="twitter:description" content="{{ $pageDescription }}">
+    <meta name="twitter:image" content="{{ .Site.BaseURL }}images/og-image.png">
+  </head>
+
+  <body>
+    {{ $debugClass := cond (eq (index .Site.Params "console-debug") true) " debug-layout" "" }}
+    <div class="site-layout dashboard{{$debugClass}}" data-rocket-console="true">
+      <header class="layout-header" role="banner">
+        <div class="flex items-center gap-4">
+          <div class="badge badge-primary">Rocket</div>
+          <div>
+            <p class="text-xs uppercase tracking-[0.4em] text-neutral-500">Control Surface</p>
+            <p class="text-lg font-semibold text-neutral-900">{{ .Site.Title }}</p>
+          </div>
+        </div>
+        <div class="layout-nav gap-3">
+          <button class="mobile-menu-toggle btn btn-ghost btn-sm" type="button" data-rocket-sidebar-toggle>
+            Menu
+          </button>
+          <a class="btn btn-ghost btn-sm" href="/">View Site</a>
+          <a class="btn btn-primary btn-sm" href="/rocket/css/">Theme Pulse</a>
+        </div>
+      </header>
+
+      <div class="layout-views with-sidebar">
+        <aside class="view-sidebar" id="rocket-admin-sidebar">
+          <div class="sidebar-header">
+            <div>
+              <p class="text-xs uppercase tracking-[0.4em] text-neutral-500">Sidebar</p>
+              <p class="text-base font-semibold">Rocket Ops</p>
+            </div>
+            <span class="badge badge-ghost">Alpha</span>
+          </div>
+
+          <div class="sidebar-block">
+            <p class="text-xs uppercase tracking-[0.3em] text-neutral-500">Console Pages</p>
+            <nav class="mt-4 flex flex-col gap-2">
+              {{ $rocketSection := site.GetPage "section" "rocket" }}
+              {{ if $rocketSection }}
+                {{ range $page := $rocketSection.Pages.ByWeight }}
+                  {{ $isActive := eq $page.Permalink $.Permalink }}
+                  {{ $btnClass := cond $isActive "btn btn-primary justify-between w-full" "btn btn-ghost justify-between w-full" }}
+                  <a class="{{ $btnClass }}" href="{{ $page.RelPermalink }}" {{ if $isActive }}aria-current="page"{{ end }}>
+                    <span class="text-sm font-medium">{{ $page.Title }}</span>
+                    {{ with $page.Params.rocket_status }}
+                      <span class="badge badge-outline text-[0.65rem] uppercase tracking-wide">{{ . }}</span>
+                    {{ end }}
+                  </a>
+                {{ end }}
+              {{ else }}
+                <p class="text-sm text-neutral-500">No console pages yet.</p>
+              {{ end }}
+            </nav>
+          </div>
+
+          {{ block "rocket-sidebar-extra" . }}{{ end }}
+
+          <div class="sidebar-footer">
+            Built with Rocket CSS v4 · {{ now.Format "Jan 02 '06" }}
+          </div>
+        </aside>
+
+        <main class="view-main" role="main">
+          <section class="main-header">
+            {{ block "rocket-main-header" . }}
+              <p class="text-xs uppercase tracking-[0.4em] text-neutral-500">Rocket Console</p>
+              <h1 class="text-3xl font-semibold text-neutral-900">{{ .Title }}</h1>
+              {{ with .Params.description }}
+                <p class="mt-2 text-neutral-600">{{ . }}</p>
+              {{ end }}
+            {{ end }}
+          </section>
+
+          <section class="main-toolbar">
+            {{ block "rocket-main-toolbar" . }}
+              <div class="badge badge-ghost">URL: {{ .RelPermalink }}</div>
+              <div class="badge badge-ghost">Theme: {{ .Scratch.Get "rocket_theme" }}</div>
+              <div class="badge badge-ghost">Density: {{ .Scratch.Get "rocket_density" }}</div>
+            {{ end }}
+          </section>
+
+          <div class="main-content">
+            {{ block "rocket-main-content" . }}
+              <article class="content-section content-article">
+                {{ .Content }}
+              </article>
+            {{ end }}
+          </div>
+
+          <footer class="main-footer">
+            {{ block "rocket-main-footer" . }}
+              Updated {{ .Lastmod.Format "Jan 02, 2006 15:04 MST" }}
+            {{ end }}
+          </footer>
+        </main>
+
+        {{ if $showRightbar }}
+          <aside class="view-rightbar">
+            {{ block "rocket-rightbar" . }}
+              <div class="card">
+                <p class="text-xs uppercase tracking-[0.4em] text-neutral-500">Console Tips</p>
+                <ul class="mt-4 space-y-3 text-sm text-neutral-600">
+                  <li>Mirror overrides inside <code>site/assets/css/input.css</code>.</li>
+                  <li>Preview tokens and components here before publishing.</li>
+                  <li>Share `/rocket` URLs only with trusted collaborators.</li>
+                </ul>
+              </div>
+            {{ end }}
+          </aside>
+        {{ end }}
+      </div>
+
+      <footer class="layout-footer" role="contentinfo">
+        <div class="flex flex-wrap items-center justify-between gap-3 text-sm text-neutral-600">
+          <span>© {{ now.Format "2006" }} {{ .Site.Title }}</span>
+          <span>Rocket Design Framework · Internal Only</span>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      (function () {
+        var toggle = document.querySelector('[data-rocket-sidebar-toggle]');
+        var sidebar = document.getElementById('rocket-admin-sidebar');
+        if (toggle && sidebar) {
+          toggle.addEventListener('click', function () {
+            sidebar.classList.toggle('is-open');
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

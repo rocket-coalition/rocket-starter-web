@@ -1,0 +1,2369 @@
+/* ==========================================================================
+   ROCKET CSS v4.0 - DESIGN FRAMEWORK
+   ==========================================================================
+   
+   Rocket CSS is a focused design system built for the Rocket Starter Web
+   platform. It is intentionally rigid so humans and AI can assemble entire
+   sites fast, with predictable naming, tokens, and layout zones. Think of it
+   as the operations manual for how every Rocket property should look and feel.
+   
+   OPERATING PRINCIPLES:
+   - This file is the single source of truth for the framework.
+   - Never edit it directly; layer changes through site/assets/css/input.css.
+   - Use the provided layers, tokens, and themes exactly as declared.
+   - Prioritize shipping speed and consistency over endless variation.
+   
+   WHAT LIVES HERE:
+   - Cascade layers, guard rails, and references for each system area.
+   - The OKLCH color engine, spacing/typography/motion primitives.
+   - Semantic tokens, layouts, components, utilities, and theme bridge.
+   - Commentary describing how AI tooling should extend the framework.
+   
+   QUICK START (HUMAN OR AI):
+   1. Include this file in your build once.
+   2. Wrap the root container with class="site-layout" plus layout zones.
+   3. Author custom tokens/components in input.css using matching @layer names.
+   4. Switch visual systems via data-theme or by overriding base tokens.
+   
+   Reference scaffold (keep in mind this file stays untouched):
+   <div class="site-layout" data-theme="dark">
+     <header class="layout-header">Header</header>
+     <div class="layout-views with-sidebar">
+       <aside class="view-sidebar">Navigation</aside>
+       <main class="view-main">
+         <div class="main-content">Content here</div>
+       </main>
+     </div>
+     <footer class="layout-footer">Footer</footer>
+   </div>
+   
+   ========================================================================== */
+
+/* ==========================================================================
+   LAYER DEFINITIONS
+   Explicit cascade control for predictable specificity management.
+   Always mirror this order when authoring overrides inside input.css so AI
+   and humans can predict specificity and keep Rocket CSS immutable.
+   ========================================================================== */
+
+@layer reset, primitives, materials, semantics, base, layouts, components, utilities, daisy-bridge, themes, mobile;
+
+
+/* ==========================================================================
+   LAYER 1: RESET
+   Baseline browser normalization. Only extend via @layer reset inside
+   input.css if a project absolutely requires a global adjustment.
+   Keep this layer minimal so the rest of the system stays predictable.
+   ========================================================================== */
+
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  body {
+    min-height: 100vh;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
+  ul,
+  ol {
+    list-style: none;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+}
+
+
+/* ==========================================================================
+   LAYER 2: PRIMITIVES
+   Token definitions for color, spacing, typography, and motion. Override the
+   individual custom properties from input.css when you need new palettes or
+   type ramps, but keep the structure (names + scales) identical.
+   ========================================================================== */
+
+@layer primitives {
+  
+  /* ----------------------------------------------------------------------
+     @PROPERTY DECLARATIONS
+     Required for OKLCH animation and smooth color transitions
+     ---------------------------------------------------------------------- */
+  
+  @property --L-primary { syntax: '<number>'; inherits: true; initial-value: 0.60; }
+  @property --C-primary { syntax: '<number>'; inherits: true; initial-value: 0.17; }
+  @property --H-primary { syntax: '<angle>';  inherits: true; initial-value: 270deg; }
+  
+  @property --L-secondary { syntax: '<number>'; inherits: true; initial-value: 0.62; }
+  @property --C-secondary { syntax: '<number>'; inherits: true; initial-value: 0.14; }
+  @property --H-secondary { syntax: '<angle>';  inherits: true; initial-value: 210deg; }
+  
+  @property --L-accent { syntax: '<number>'; inherits: true; initial-value: 0.68; }
+  @property --C-accent { syntax: '<number>'; inherits: true; initial-value: 0.16; }
+  @property --H-accent { syntax: '<angle>';  inherits: true; initial-value: 80deg; }
+  
+  @property --L-neutral { syntax: '<number>'; inherits: true; initial-value: 0.50; }
+  @property --C-neutral { syntax: '<number>'; inherits: true; initial-value: 0.03; }
+  @property --H-neutral { syntax: '<angle>';  inherits: true; initial-value: 260deg; }
+  
+  
+  :root {
+    /* ----------------------------------------------------------------
+       OKLCH COLOR ENGINE
+       Change these 3 values (L, C, H) per color to theme entire system
+       L = Lightness (0-1), C = Chroma (0-0.4), H = Hue (0-360deg)
+       ---------------------------------------------------------------- */
+    
+    /* Primary Brand Color */
+    --primary-l: 0.60;
+    --primary-c: 0.17;
+    --primary-h: 270deg;
+    
+    /* Secondary Brand Color */
+    --secondary-l: 0.62;
+    --secondary-c: 0.14;
+    --secondary-h: 210deg;
+    
+    /* Accent Color */
+    --accent-l: 0.68;
+    --accent-c: 0.16;
+    --accent-h: 80deg;
+    
+    /* Neutral Gray Scale */
+    --neutral-l: 0.50;
+    --neutral-c: 0.03;
+    --neutral-h: 260deg;
+    
+    /* Semantic State Colors */
+    --info-l: 0.62; --info-c: 0.15; --info-h: 245deg;
+    --success-l: 0.60; --success-c: 0.15; --success-h: 145deg;
+    --warning-l: 0.70; --warning-c: 0.17; --warning-h: 80deg;
+    --error-l: 0.58; --error-c: 0.19; --error-h: 25deg;
+    
+    /* Pure Colors */
+    --color-white: oklch(1 0 0);
+    --color-black: oklch(0 0 0);
+    
+    
+    /* ----------------------------------------------------------------
+       COLOR SCALE ENGINE
+       Advanced multipliers for generating 50-950 color ramps
+       Mode: linear-soft (optimal for UI design)
+       ---------------------------------------------------------------- */
+    
+    /* Lightness Multipliers */
+    --scale-l-50: 1.50;
+    --scale-l-100: 1.35;
+    --scale-l-200: 1.25;
+    --scale-l-300: 1.15;
+    --scale-l-400: 1.07;
+    --scale-l-500: 1.00;  /* Base value */
+    --scale-l-600: 0.92;
+    --scale-l-700: 0.82;
+    --scale-l-800: 0.70;
+    --scale-l-900: 0.55;
+    --scale-l-950: 0.40;
+    
+    /* Chroma Multipliers (Controls saturation) */
+    --scale-c-50: 0.20;
+    --scale-c-100: 0.40;
+    --scale-c-200: 0.60;
+    --scale-c-300: 0.80;
+    --scale-c-400: 0.90;
+    --scale-c-500: 1.00;  /* Base value */
+    --scale-c-600: 1.05;
+    --scale-c-700: 1.10;
+    --scale-c-800: 1.15;
+    --scale-c-900: 1.20;
+    --scale-c-950: 1.25;
+    
+    /* Hue Shift (Optional - for color temperature adjustments) */
+    --scale-h-shift: 0deg;
+    
+    
+    /* ----------------------------------------------------------------
+       GENERATED COLOR SCALES
+       Complete 50-950 ramps auto-computed from base values
+       ---------------------------------------------------------------- */
+    
+    /* Primary Scale */
+    --color-primary-50:  oklch(calc(var(--primary-l) * var(--scale-l-50))  calc(var(--primary-c) * var(--scale-c-50))  calc(var(--primary-h) + var(--scale-h-shift)));
+    --color-primary-100: oklch(calc(var(--primary-l) * var(--scale-l-100)) calc(var(--primary-c) * var(--scale-c-100)) calc(var(--primary-h) + var(--scale-h-shift)));
+    --color-primary-200: oklch(calc(var(--primary-l) * var(--scale-l-200)) calc(var(--primary-c) * var(--scale-c-200)) calc(var(--primary-h) + var(--scale-h-shift)));
+    --color-primary-300: oklch(calc(var(--primary-l) * var(--scale-l-300)) calc(var(--primary-c) * var(--scale-c-300)) calc(var(--primary-h) + var(--scale-h-shift)));
+    --color-primary-400: oklch(calc(var(--primary-l) * var(--scale-l-400)) calc(var(--primary-c) * var(--scale-c-400)) calc(var(--primary-h) + var(--scale-h-shift)));
+    --color-primary-500: oklch(calc(var(--primary-l) * var(--scale-l-500)) calc(var(--primary-c) * var(--scale-c-500)) calc(var(--primary-h) + var(--scale-h-shift)));
+    --color-primary-600: oklch(calc(var(--primary-l) * var(--scale-l-600)) calc(var(--primary-c) * var(--scale-c-600)) calc(var(--primary-h) + var(--scale-h-shift)));
+    --color-primary-700: oklch(calc(var(--primary-l) * var(--scale-l-700)) calc(var(--primary-c) * var(--scale-c-700)) calc(var(--primary-h) + var(--scale-h-shift)));
+    --color-primary-800: oklch(calc(var(--primary-l) * var(--scale-l-800)) calc(var(--primary-c) * var(--scale-c-800)) calc(var(--primary-h) + var(--scale-h-shift)));
+    --color-primary-900: oklch(calc(var(--primary-l) * var(--scale-l-900)) calc(var(--primary-c) * var(--scale-c-900)) calc(var(--primary-h) + var(--scale-h-shift)));
+    --color-primary-950: oklch(calc(var(--primary-l) * var(--scale-l-950)) calc(var(--primary-c) * var(--scale-c-950)) calc(var(--primary-h) + var(--scale-h-shift)));
+    
+    /* Secondary Scale */
+    --color-secondary-50:  oklch(calc(var(--secondary-l) * var(--scale-l-50))  calc(var(--secondary-c) * var(--scale-c-50))  calc(var(--secondary-h) + var(--scale-h-shift)));
+    --color-secondary-100: oklch(calc(var(--secondary-l) * var(--scale-l-100)) calc(var(--secondary-c) * var(--scale-c-100)) calc(var(--secondary-h) + var(--scale-h-shift)));
+    --color-secondary-200: oklch(calc(var(--secondary-l) * var(--scale-l-200)) calc(var(--secondary-c) * var(--scale-c-200)) calc(var(--secondary-h) + var(--scale-h-shift)));
+    --color-secondary-300: oklch(calc(var(--secondary-l) * var(--scale-l-300)) calc(var(--secondary-c) * var(--scale-c-300)) calc(var(--secondary-h) + var(--scale-h-shift)));
+    --color-secondary-400: oklch(calc(var(--secondary-l) * var(--scale-l-400)) calc(var(--secondary-c) * var(--scale-c-400)) calc(var(--secondary-h) + var(--scale-h-shift)));
+    --color-secondary-500: oklch(calc(var(--secondary-l) * var(--scale-l-500)) calc(var(--secondary-c) * var(--scale-c-500)) calc(var(--secondary-h) + var(--scale-h-shift)));
+    --color-secondary-600: oklch(calc(var(--secondary-l) * var(--scale-l-600)) calc(var(--secondary-c) * var(--scale-c-600)) calc(var(--secondary-h) + var(--scale-h-shift)));
+    --color-secondary-700: oklch(calc(var(--secondary-l) * var(--scale-l-700)) calc(var(--secondary-c) * var(--scale-c-700)) calc(var(--secondary-h) + var(--scale-h-shift)));
+    --color-secondary-800: oklch(calc(var(--secondary-l) * var(--scale-l-800)) calc(var(--secondary-c) * var(--scale-c-800)) calc(var(--secondary-h) + var(--scale-h-shift)));
+    --color-secondary-900: oklch(calc(var(--secondary-l) * var(--scale-l-900)) calc(var(--secondary-c) * var(--scale-c-900)) calc(var(--secondary-h) + var(--scale-h-shift)));
+    --color-secondary-950: oklch(calc(var(--secondary-l) * var(--scale-l-950)) calc(var(--secondary-c) * var(--scale-c-950)) calc(var(--secondary-h) + var(--scale-h-shift)));
+    
+    /* Accent Scale */
+    --color-accent-50:  oklch(calc(var(--accent-l) * var(--scale-l-50))  calc(var(--accent-c) * var(--scale-c-50))  calc(var(--accent-h) + var(--scale-h-shift)));
+    --color-accent-100: oklch(calc(var(--accent-l) * var(--scale-l-100)) calc(var(--accent-c) * var(--scale-c-100)) calc(var(--accent-h) + var(--scale-h-shift)));
+    --color-accent-200: oklch(calc(var(--accent-l) * var(--scale-l-200)) calc(var(--accent-c) * var(--scale-c-200)) calc(var(--accent-h) + var(--scale-h-shift)));
+    --color-accent-300: oklch(calc(var(--accent-l) * var(--scale-l-300)) calc(var(--accent-c) * var(--scale-c-300)) calc(var(--accent-h) + var(--scale-h-shift)));
+    --color-accent-400: oklch(calc(var(--accent-l) * var(--scale-l-400)) calc(var(--accent-c) * var(--scale-c-400)) calc(var(--accent-h) + var(--scale-h-shift)));
+    --color-accent-500: oklch(calc(var(--accent-l) * var(--scale-l-500)) calc(var(--accent-c) * var(--scale-c-500)) calc(var(--accent-h) + var(--scale-h-shift)));
+    --color-accent-600: oklch(calc(var(--accent-l) * var(--scale-l-600)) calc(var(--accent-c) * var(--scale-c-600)) calc(var(--accent-h) + var(--scale-h-shift)));
+    --color-accent-700: oklch(calc(var(--accent-l) * var(--scale-l-700)) calc(var(--accent-c) * var(--scale-c-700)) calc(var(--accent-h) + var(--scale-h-shift)));
+    --color-accent-800: oklch(calc(var(--accent-l) * var(--scale-l-800)) calc(var(--accent-c) * var(--scale-c-800)) calc(var(--accent-h) + var(--scale-h-shift)));
+    --color-accent-900: oklch(calc(var(--accent-l) * var(--scale-l-900)) calc(var(--accent-c) * var(--scale-c-900)) calc(var(--accent-h) + var(--scale-h-shift)));
+    --color-accent-950: oklch(calc(var(--accent-l) * var(--scale-l-950)) calc(var(--accent-c) * var(--scale-c-950)) calc(var(--accent-h) + var(--scale-h-shift)));
+    
+    /* Neutral Scale */
+    --color-neutral-50:  oklch(calc(var(--neutral-l) * var(--scale-l-50))  calc(var(--neutral-c) * var(--scale-c-50))  calc(var(--neutral-h) + var(--scale-h-shift)));
+    --color-neutral-100: oklch(calc(var(--neutral-l) * var(--scale-l-100)) calc(var(--neutral-c) * var(--scale-c-100)) calc(var(--neutral-h) + var(--scale-h-shift)));
+    --color-neutral-200: oklch(calc(var(--neutral-l) * var(--scale-l-200)) calc(var(--neutral-c) * var(--scale-c-200)) calc(var(--neutral-h) + var(--scale-h-shift)));
+    --color-neutral-300: oklch(calc(var(--neutral-l) * var(--scale-l-300)) calc(var(--neutral-c) * var(--scale-c-300)) calc(var(--neutral-h) + var(--scale-h-shift)));
+    --color-neutral-400: oklch(calc(var(--neutral-l) * var(--scale-l-400)) calc(var(--neutral-c) * var(--scale-c-400)) calc(var(--neutral-h) + var(--scale-h-shift)));
+    --color-neutral-500: oklch(calc(var(--neutral-l) * var(--scale-l-500)) calc(var(--neutral-c) * var(--scale-c-500)) calc(var(--neutral-h) + var(--scale-h-shift)));
+    --color-neutral-600: oklch(calc(var(--neutral-l) * var(--scale-l-600)) calc(var(--neutral-c) * var(--scale-c-600)) calc(var(--neutral-h) + var(--scale-h-shift)));
+    --color-neutral-700: oklch(calc(var(--neutral-l) * var(--scale-l-700)) calc(var(--neutral-c) * var(--scale-c-700)) calc(var(--neutral-h) + var(--scale-h-shift)));
+    --color-neutral-800: oklch(calc(var(--neutral-l) * var(--scale-l-800)) calc(var(--neutral-c) * var(--scale-c-800)) calc(var(--neutral-h) + var(--scale-h-shift)));
+    --color-neutral-900: oklch(calc(var(--neutral-l) * var(--scale-l-900)) calc(var(--neutral-c) * var(--scale-c-900)) calc(var(--neutral-h) + var(--scale-h-shift)));
+    --color-neutral-950: oklch(calc(var(--neutral-l) * var(--scale-l-950)) calc(var(--neutral-c) * var(--scale-c-950)) calc(var(--neutral-h) + var(--scale-h-shift)));
+    
+    /* Semantic State Colors (Single 500 shade) */
+    --color-info-500: oklch(var(--info-l) var(--info-c) var(--info-h));
+    --color-success-500: oklch(var(--success-l) var(--success-c) var(--success-h));
+    --color-warning-500: oklch(var(--warning-l) var(--warning-c) var(--warning-h));
+    --color-error-500: oklch(var(--error-l) var(--error-c) var(--error-h));
+    
+    
+    /* ----------------------------------------------------------------
+       SPACING SCALE
+       Consistent rhythm throughout the system (rem-based)
+       ---------------------------------------------------------------- */
+    --space-0: 0;
+    --space-px: 1px;
+    --space-0\.5: 0.125rem;
+    --space-1: 0.25rem;
+    --space-1\.5: 0.375rem;
+    --space-2: 0.5rem;
+    --space-2\.5: 0.625rem;
+    --space-3: 0.75rem;
+    --space-3\.5: 0.875rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-7: 1.75rem;
+    --space-8: 2rem;
+    --space-9: 2.25rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+    --space-14: 3.5rem;
+    --space-16: 4rem;
+    --space-20: 5rem;
+    --space-24: 6rem;
+    --space-28: 7rem;
+    --space-32: 8rem;
+    
+    
+    /* ----------------------------------------------------------------
+       TYPOGRAPHY SCALE
+       Fluid responsive sizing with clamp() for perfect scaling
+       ---------------------------------------------------------------- */
+    --font-sans: system-ui, -apple-system, 'SF Pro Text', 'Segoe UI', 'Inter', sans-serif;
+    --font-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Menlo', monospace;
+    
+    /* Fluid Typography - Scales smoothly from mobile (320px) to desktop (1920px) */
+    --text-xs:   clamp(0.75rem, 0.70rem + 0.25vw, 0.8125rem);
+    --text-sm:   clamp(0.875rem, 0.825rem + 0.25vw, 0.9375rem);
+    --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem);
+    --text-lg:   clamp(1.125rem, 1.05rem + 0.375vw, 1.25rem);
+    --text-xl:   clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+    --text-2xl:  clamp(1.5rem, 1.35rem + 0.75vw, 1.875rem);
+    --text-3xl:  clamp(1.875rem, 1.65rem + 1.125vw, 2.25rem);
+    --text-4xl:  clamp(2.25rem, 1.95rem + 1.5vw, 3rem);
+    --text-5xl:  clamp(3rem, 2.55rem + 2.25vw, 4rem);
+    
+    /* Font Weights */
+    --font-light: 300;
+    --font-normal: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+    
+    /* Line Heights */
+    --leading-tight: 1.25;
+    --leading-snug: 1.375;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.75;
+    --leading-loose: 2;
+    
+    
+    /* ----------------------------------------------------------------
+       BORDER RADIUS
+       Consistent corner rounding
+       ---------------------------------------------------------------- */
+    --radius-none: 0;
+    --radius-sm: 0.125rem;
+    --radius-base: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
+    --radius-2xl: 1rem;
+    --radius-3xl: 1.5rem;
+    --radius-full: 9999px;
+    
+    
+    /* ----------------------------------------------------------------
+       SHADOWS
+       Layered, soft elevation system
+       ---------------------------------------------------------------- */
+    --shadow-xs:   0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-sm:   0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+    --shadow-md:   0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.06);
+    --shadow-lg:   0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+    --shadow-xl:   0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.04);
+    --shadow-2xl:  0 25px 50px -12px rgb(0 0 0 / 0.15);
+    --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.06);
+    
+    
+    /* ----------------------------------------------------------------
+       MOTION & ANIMATION
+       Natural, smooth timing functions
+       ---------------------------------------------------------------- */
+    --duration-75: 75ms;
+    --duration-100: 100ms;
+    --duration-150: 150ms;
+    --duration-200: 200ms;
+    --duration-300: 300ms;
+    --duration-500: 500ms;
+    --duration-700: 700ms;
+    --duration-1000: 1000ms;
+    
+    --ease-linear: linear;
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+    --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    
+    
+    /* ----------------------------------------------------------------
+       Z-INDEX SCALE
+       Consistent stacking order
+       ---------------------------------------------------------------- */
+    --z-0: 0;
+    --z-10: 10;
+    --z-20: 20;
+    --z-30: 30;
+    --z-40: 40;
+    --z-50: 50;
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
+  }
+}
+
+
+/* ==========================================================================
+   LAYER 3: MATERIALS
+   Surface treatments (glass, velvet, graphite, canvas). Adjust global
+   material knobs such as --material-style or --material-intensity within
+   input.css to dial texture in or out without touching component code.
+   ========================================================================== */
+
+@layer materials {
+  :root {
+    /* ----------------------------------------------------------------
+       MASTER MATERIAL CONTROLS
+       Set these to activate material effects globally
+       ---------------------------------------------------------------- */
+    --material-intensity: 0%;          /* 0-100% - Master on/off switch */
+    --material-motion-intensity: 0%;   /* 0-100% - Animated effects */
+    
+    
+    /* ----------------------------------------------------------------
+       TEXTURE CONTROLS
+       Fine-grained control over surface treatments
+       ---------------------------------------------------------------- */
+    
+    /* Noise & Grain (Paper/Canvas texture) */
+    --surface-noise-opacity: 0%;       /* 0-4% recommended */
+    --surface-noise-scale: 1;          /* 0.5-2.0 */
+    
+    /* Sheen (Directional highlight for metal/satin) */
+    --surface-sheen-strength: 0%;      /* 0-15% */
+    --surface-sheen-angle: 145deg;     /* Direction of light */
+    
+    /* Velvet (Plush, soft depth) */
+    --surface-velvet-strength: 0%;     /* 0-10% */
+    --surface-velvet-angle: 160deg;
+    
+    /* Vignette (Edge darkening for focus) */
+    --surface-vignette-strength: 0%;   /* 0-20% */
+    --surface-vignette-radius: 80%;    /* 50-100% */
+    
+    /* Glass Effects (Frosted/blur) */
+    --surface-glass-blur: 0px;         /* 0-24px */
+    --surface-glass-opacity: 0%;       /* 0-100% */
+    --surface-glass-tint: var(--color-white);
+    
+    
+    /* ----------------------------------------------------------------
+       MATERIAL PROFILES (Preset combinations)
+       Activate by setting --material-intensity and these values
+       ---------------------------------------------------------------- */
+    
+    /* Velvet Profile (Luxurious, soft) */
+    --mat-velvet-strength: 0%;
+    --mat-velvet-noise: 0%;
+    --mat-velvet-vignette: 0%;
+    
+    /* Graphite Profile (Matte, technical) */
+    --mat-graphite-sheen: 0%;
+    --mat-graphite-noise: 0%;
+    --mat-graphite-contrast: 0%;
+    
+    /* Canvas Profile (Organic, textured) */
+    --mat-canvas-grain: 0%;
+    --mat-canvas-warp: 0%;
+    
+    /* Satin Profile (Smooth, subtle sheen) */
+    --mat-satin-glow: 0%;
+    --mat-satin-smooth: 0%;
+    
+    /* Glass Profile (Transparent, blurred) */
+    --mat-glass-blur: 0px;
+    --mat-glass-frost: 0%;
+    
+    
+    /* ----------------------------------------------------------------
+       ELEVATION SYSTEM
+       Material lift amounts for different elevation levels
+       ---------------------------------------------------------------- */
+    --elevation-0: 0%;
+    --elevation-1: 2%;
+    --elevation-2: 4%;
+    --elevation-3: 6%;
+    --elevation-4: 8%;
+    --elevation-5: 10%;
+    
+    
+    /* ----------------------------------------------------------------
+       TEXT EFFECTS (For paper/print aesthetics)
+       ---------------------------------------------------------------- */
+    --text-press-depth: 0px;           /* 0-2px - Letterpress effect */
+    --text-ink-spread: 0%;             /* 0-2% - Ink bleeding */
+    --text-emboss-strength: 0%;        /* 0-100% */
+  }
+  
+  
+  /* Global Noise/Grain Layer (Applied to body) */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: var(--surface-noise-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='oklch(0 0 0 / 10%)' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    mix-blend-mode: overlay;
+  }
+}
+
+
+/* ==========================================================================
+   LAYER 4: SEMANTICS
+   Maps primitives to surfaces, text, borders, states. Override the semantic
+   variables (e.g., --surface-card) from input.css to create a new brand skin
+   without rewriting any component styles.
+   ========================================================================== */
+
+@layer semantics {
+  :root {
+    /* ----------------------------------------------------------------
+       SURFACE SEMANTICS (Light Mode Defaults)
+       Background colors for different UI contexts
+       ---------------------------------------------------------------- */
+    --surface-base: var(--color-neutral-50);           /* Page background */
+    --surface-page: var(--color-white);                /* Main container */
+    --surface-shell: var(--color-white);               /* App shell */
+    --surface-shell-muted: var(--color-neutral-100);   /* Sidebar backgrounds */
+    --surface-card: var(--color-white);                /* Card components */
+    --surface-card-elevated: var(--color-neutral-50);  /* Raised cards */
+    --surface-overlay: var(--color-neutral-200);       /* Modals, dialogs */
+    --surface-raised: var(--color-neutral-100);        /* Elevated surfaces */
+    --surface-sunken: var(--color-neutral-50);         /* Depressed surfaces */
+    --surface-hover: var(--color-neutral-100);         /* Interactive hover state */
+    
+    
+    /* ----------------------------------------------------------------
+       TEXT SEMANTICS
+       Foreground colors for typography
+       ---------------------------------------------------------------- */
+    --text-primary: var(--color-neutral-900);          /* Body text */
+    --text-secondary: var(--color-neutral-700);        /* Secondary text */
+    --text-tertiary: var(--color-neutral-600);         /* Tertiary text */
+    --text-disabled: var(--color-neutral-400);         /* Disabled state */
+    --text-inverse: var(--color-neutral-50);           /* Text on dark */
+    --text-heading: var(--color-neutral-900);          /* Headings */
+    --text-brand: var(--color-primary-600);            /* Brand emphasis */
+    --text-link: var(--color-accent-600);              /* Links */
+    --text-link-hover: var(--color-accent-700);        /* Link hover */
+    --text-link-visited: var(--color-accent-800);      /* Visited links */
+    
+    
+    /* ----------------------------------------------------------------
+       BORDER SEMANTICS
+       Edge and divider colors
+       ---------------------------------------------------------------- */
+    --border-subtle: var(--color-neutral-200);         /* Subtle borders */
+    --border-default: var(--color-neutral-300);        /* Standard borders */
+    --border-strong: var(--color-neutral-400);         /* Emphasized borders */
+    --border-brand: var(--color-primary-500);          /* Brand borders */
+    --border-focus: var(--color-primary-500);          /* Focus indicator */
+    --border-error: var(--color-error-500);            /* Error state */
+    --divider: var(--color-neutral-200);               /* Content dividers */
+    
+    
+    /* ----------------------------------------------------------------
+       INTERACTIVE SEMANTICS
+       States and feedback for interactive elements
+       ---------------------------------------------------------------- */
+    --interactive-normal: var(--color-primary-500);
+    --interactive-hover: var(--color-primary-600);
+    --interactive-active: var(--color-primary-700);
+    --interactive-disabled: var(--color-neutral-300);
+    --interactive-focus: var(--color-primary-500);
+    
+    
+    /* ----------------------------------------------------------------
+       STATE SEMANTICS
+       Success, warning, error, info feedback
+       ---------------------------------------------------------------- */
+    
+    /* Info State */
+    --state-info-bg: color-mix(in oklch, var(--color-info-500) 10%, var(--surface-card));
+    --state-info-text: var(--color-info-500);
+    --state-info-border: var(--color-info-500);
+    --state-info-hover: color-mix(in oklch, var(--color-info-500) 15%, var(--surface-card));
+    
+    /* Success State */
+    --state-success-bg: color-mix(in oklch, var(--color-success-500) 10%, var(--surface-card));
+    --state-success-text: var(--color-success-500);
+    --state-success-border: var(--color-success-500);
+    --state-success-hover: color-mix(in oklch, var(--color-success-500) 15%, var(--surface-card));
+    
+    /* Warning State */
+    --state-warning-bg: color-mix(in oklch, var(--color-warning-500) 10%, var(--surface-card));
+    --state-warning-text: var(--color-warning-500);
+    --state-warning-border: var(--color-warning-500);
+    --state-warning-hover: color-mix(in oklch, var(--color-warning-500) 15%, var(--surface-card));
+    
+    /* Error State */
+    --state-error-bg: color-mix(in oklch, var(--color-error-500) 10%, var(--surface-card));
+    --state-error-text: var(--color-error-500);
+    --state-error-border: var(--color-error-500);
+    --state-error-hover: color-mix(in oklch, var(--color-error-500) 15%, var(--surface-card));
+    
+    
+    /* ----------------------------------------------------------------
+       FOCUS RING SYSTEM
+       WCAG AAA compliant focus indicators
+       ---------------------------------------------------------------- */
+    --focus-ring-width: 2px;
+    --focus-ring-color: var(--color-primary-500);
+    --focus-ring-offset: 2px;
+    --focus-ring-style: solid;
+    
+    
+    /* ----------------------------------------------------------------
+       LAYOUT DIMENSIONS
+       Based on YAML structure requirements
+       ---------------------------------------------------------------- */
+    --layout-max-width: 1600px;
+    --layout-sidebar-width: 16rem;
+    --layout-rightbar-width: 18rem;
+    --layout-gap: var(--space-8);
+    --layout-gap-inner: var(--space-6);
+    --layout-padding: var(--space-6);
+    --layout-shell-padding-x: clamp(var(--space-4), 4vw, var(--space-8));
+    --layout-shell-padding-y: var(--space-4);
+    --layout-header-padding-y: var(--space-4);
+    --layout-footer-padding-y: var(--space-6);
+    --layout-column-gap: 1.75rem;
+    --layout-sticky-offset: 0;
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     DENSITY VARIANTS
+     Adjust spacing density for different use cases
+     ---------------------------------------------------------------- */
+  
+  [data-density="compact"] {
+    --layout-gap: var(--space-4);
+    --layout-gap-inner: var(--space-3);
+    --layout-padding: var(--space-4);
+    --layout-shell-padding-x: clamp(var(--space-3), 3vw, var(--space-5));
+    --layout-shell-padding-y: var(--space-3);
+    --layout-column-gap: 1.25rem;
+  }
+  
+  [data-density="spacious"] {
+    --layout-gap: var(--space-12);
+    --layout-gap-inner: var(--space-8);
+    --layout-padding: var(--space-8);
+    --layout-shell-padding-x: clamp(var(--space-6), 5vw, var(--space-12));
+    --layout-shell-padding-y: var(--space-6);
+    --layout-column-gap: 2.5rem;
+  }
+}
+
+
+/* ========================================================================== */
+/*   CONTINUE TO PART 2 (Due to length - file will be created complete)     */
+/* ========================================================================== */
+
+/* ==========================================================================
+   LAYER 5: BASE
+   Element defaults (body, typography, forms). Start any project-level tweaks
+   by mirroring @layer base in input.css instead of editing selectors here.
+   ========================================================================== */
+
+@layer base {
+  :root {
+    color-scheme: light;
+    scroll-behavior: smooth;
+    
+    /* Mobile Safe Area Support (iOS notch, dynamic island, home indicators) */
+    --safe-top: env(safe-area-inset-top, 0);
+    --safe-right: env(safe-area-inset-right, 0);
+    --safe-bottom: env(safe-area-inset-bottom, 0);
+    --safe-left: env(safe-area-inset-left, 0);
+  }
+  
+  html {
+    background: var(--surface-base);
+    color: var(--text-primary);
+  }
+  
+  body {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    color: var(--text-primary);
+    background-color: var(--surface-page);
+    
+    /* Premium gradient background (subtle) */
+    background-image: 
+      radial-gradient(
+        ellipse at top left,
+        color-mix(in oklch, var(--color-primary-100) 20%, transparent),
+        transparent 40%
+      ),
+      radial-gradient(
+        ellipse at bottom right,
+        color-mix(in oklch, var(--color-secondary-100) 15%, transparent),
+        transparent 40%
+      );
+    
+    /* Apply safe area padding */
+    padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+    
+    /* Position for material effects */
+    position: relative;
+    z-index: 1;
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     TYPOGRAPHY
+     ---------------------------------------------------------------- */
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: var(--font-semibold);
+    line-height: var(--leading-tight);
+    color: var(--text-heading);
+    margin-block: var(--space-4) 0;
+  }
+  
+  h1 { font-size: var(--text-5xl); }
+  h2 { font-size: var(--text-4xl); }
+  h3 { font-size: var(--text-3xl); }
+  h4 { font-size: var(--text-2xl); }
+  h5 { font-size: var(--text-xl); }
+  h6 { 
+    font-size: var(--text-lg); 
+    font-weight: var(--font-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+  }
+  
+  p {
+    margin-block: var(--space-4);
+    color: var(--text-primary);
+  }
+  
+  small {
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+  }
+  
+  strong, b {
+    font-weight: var(--font-semibold);
+  }
+  
+  em, i {
+    font-style: italic;
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     LINKS
+     ---------------------------------------------------------------- */
+  
+  a {
+    color: var(--text-link);
+    text-decoration: none;
+    text-underline-offset: 0.2em;
+    transition: color var(--duration-200) var(--ease-out);
+  }
+  
+  a:hover {
+    color: var(--text-link-hover);
+    text-decoration: underline;
+  }
+  
+  a:visited {
+    color: var(--text-link-visited);
+  }
+  
+  a:focus-visible {
+    outline: var(--focus-ring-width) var(--focus-ring-style) var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
+    border-radius: var(--radius-sm);
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     LISTS
+     ---------------------------------------------------------------- */
+  
+  ul, ol {
+    margin-block: var(--space-4);
+    padding-inline-start: var(--space-6);
+  }
+  
+  ul {
+    list-style-type: disc;
+  }
+  
+  ol {
+    list-style-type: decimal;
+  }
+  
+  li {
+    margin-block: var(--space-2);
+  }
+  
+  li::marker {
+    color: var(--text-tertiary);
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     CODE & PRE
+     ---------------------------------------------------------------- */
+  
+  code, kbd, samp, pre {
+    font-family: var(--font-mono);
+  }
+  
+  code {
+    padding: 0.2em 0.4em;
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklch, var(--surface-shell-muted) 80%, var(--color-primary-50) 20%);
+    font-size: 0.9em;
+  }
+  
+  pre {
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    background: var(--surface-shell-muted);
+    overflow-x: auto;
+    border: 1px solid var(--border-subtle);
+  }
+  
+  pre code {
+    padding: 0;
+    background: none;
+    border-radius: 0;
+  }
+  
+  kbd {
+    padding: 0.1em 0.4em;
+    border-radius: var(--radius-sm);
+    background: var(--surface-raised);
+    border: 1px solid var(--border-default);
+    box-shadow: 0 2px 0 var(--border-strong);
+    font-size: 0.875em;
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     BLOCKQUOTE
+     ---------------------------------------------------------------- */
+  
+  blockquote {
+    margin-block: var(--space-6);
+    padding-inline-start: var(--space-6);
+    border-inline-start: 4px solid var(--border-brand);
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     HORIZONTAL RULE
+     ---------------------------------------------------------------- */
+  
+  hr {
+    border: 0;
+    border-block-start: 1px solid var(--divider);
+    margin-block: var(--space-8);
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     FORMS
+     ---------------------------------------------------------------- */
+  
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+  
+  button {
+    cursor: pointer;
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2) var(--space-4);
+    background: var(--surface-card);
+    color: var(--text-primary);
+    transition:
+      transform var(--duration-150) var(--ease-out),
+      box-shadow var(--duration-150) var(--ease-out),
+      background var(--duration-150) var(--ease-out);
+  }
+  
+  button:hover {
+    background: var(--surface-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  button:active {
+    transform: translateY(0);
+  }
+  
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+  }
+  
+  input,
+  textarea,
+  select {
+    width: 100%;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-default);
+    background: var(--surface-card);
+    padding: var(--space-3) var(--space-4);
+    box-shadow: inset 0 1px 2px color-mix(in oklch, var(--color-neutral-900) 8%, transparent);
+    transition:
+      border-color var(--duration-200) var(--ease-out),
+      box-shadow var(--duration-200) var(--ease-out);
+  }
+  
+  input:hover,
+  textarea:hover,
+  select:hover {
+    border-color: var(--border-strong);
+  }
+  
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: var(--border-focus);
+    box-shadow:
+      0 0 0 1px var(--border-focus),
+      inset 0 1px 2px color-mix(in oklch, var(--color-primary-500) 20%, transparent);
+    outline: none;
+  }
+  
+  input:disabled,
+  textarea:disabled,
+  select:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    background: var(--surface-sunken);
+  }
+  
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     TABLES
+     ---------------------------------------------------------------- */
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-block: var(--space-6);
+    font-size: var(--text-sm);
+  }
+  
+  th,
+  td {
+    padding: var(--space-3);
+    text-align: left;
+    border-bottom: 1px solid var(--divider);
+  }
+  
+  th {
+    font-weight: var(--font-semibold);
+    color: var(--text-secondary);
+    background: var(--surface-raised);
+  }
+  
+  tr:hover {
+    background: var(--surface-hover);
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     SELECTION
+     ---------------------------------------------------------------- */
+  
+  ::selection {
+    background-color: color-mix(in oklch, var(--color-primary-300) 30%, transparent);
+    color: var(--text-primary);
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     FOCUS VISIBLE (Global)
+     ---------------------------------------------------------------- */
+  
+  *:focus {
+    outline: none;
+  }
+  
+  *:focus-visible {
+    outline: var(--focus-ring-width) var(--focus-ring-style) var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
+    border-radius: var(--radius-sm);
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     REDUCED MOTION SUPPORT
+     ---------------------------------------------------------------- */
+  
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+
+/* ==========================================================================
+   LAYER 6: LAYOUTS
+   Defines the page shell, zones, and responsive behavior. Compose new views
+   by reusing these classes. If additional variants are needed, add them via
+   @layer layouts in input.css so spacing tokens stay aligned.
+   ========================================================================== */
+
+@layer layouts {
+  
+  /* ----------------------------------------------------------------
+     SITE LAYOUT: Root Container
+     Master grid: preheader → header → postheader → views → footer
+     ---------------------------------------------------------------- */
+  
+  .site-layout {
+    display: grid;
+    width: 100%;
+    min-height: 100vh;
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    
+    grid-template-areas:
+      "preheader"
+      "header"
+      "postheader"
+      "views"
+      "footer";
+    
+    grid-template-rows: auto auto auto 1fr auto;
+    
+    background: var(--surface-page);
+    box-shadow: var(--shadow-lg);
+    border-radius: var(--radius-lg);
+    position: relative;
+    z-index: 2;
+    isolation: isolate;
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     LAYOUT ZONES: Header Areas
+     ---------------------------------------------------------------- */
+  
+  .layout-preheader {
+    grid-area: preheader;
+    background: var(--color-primary-600);
+    color: var(--text-inverse);
+    padding-inline: var(--layout-shell-padding-x);
+    padding-block: var(--space-2);
+    font-size: var(--text-sm);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .layout-preheader:empty {
+    display: none;
+  }
+  
+  .layout-header {
+    grid-area: header;
+    background: var(--surface-shell);
+    border-block-end: 1px solid var(--border-subtle);
+    padding-inline: var(--layout-shell-padding-x);
+    padding-block: var(--layout-header-padding-y);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+  }
+  
+  /* Glass effect for sticky header */
+  @supports (backdrop-filter: blur(10px)) {
+    .layout-header {
+      backdrop-filter: blur(10px);
+      background: color-mix(in oklch, var(--surface-shell) 85%, transparent);
+    }
+  }
+  
+  .layout-nav {
+    display: flex;
+    gap: var(--space-6);
+    align-items: center;
+  }
+  
+  .layout-postheader {
+    grid-area: postheader;
+    background: var(--surface-shell-muted);
+    border-block-end: 1px solid var(--border-subtle);
+    padding-inline: var(--layout-shell-padding-x);
+    padding-block: var(--space-3);
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+  
+  .layout-postheader:empty {
+    display: none;
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     LAYOUT VIEWS: Horizontal Container
+     Defines column structure: sidebar | main | rightbar
+     ---------------------------------------------------------------- */
+  
+  .layout-views {
+    grid-area: views;
+    display: grid;
+    grid-template-areas: "main";
+    grid-template-columns: 1fr;
+    min-height: 0;
+    gap: 0;
+  }
+  
+  /* With Sidebar (Tablet+) */
+  @media (min-width: 768px) {
+    .layout-views.with-sidebar {
+      grid-template-areas: "sidebar main";
+      grid-template-columns: var(--layout-sidebar-width) 1fr;
+    }
+    
+    .layout-views.with-dual-sidebars {
+      grid-template-areas: "sidebar main rightbar";
+      grid-template-columns: var(--layout-sidebar-width) 1fr var(--layout-rightbar-width);
+    }
+  }
+  
+  /* Desktop Optimization */
+  @media (min-width: 1024px) {
+    .layout-views.with-sidebar {
+      grid-template-columns: 280px 1fr;
+    }
+    
+    .layout-views.with-dual-sidebars {
+      grid-template-columns: 280px 1fr 340px;
+    }
+  }
+  
+  /* Wide Screen */
+  @media (min-width: 1440px) {
+    .layout-views.with-sidebar {
+      grid-template-columns: 320px 1fr;
+    }
+    
+    .layout-views.with-dual-sidebars {
+      grid-template-columns: 320px 1fr 380px;
+    }
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     VIEW SIDEBAR: Left Navigation Panel
+     ---------------------------------------------------------------- */
+  
+  .view-sidebar {
+    grid-area: sidebar;
+    background: var(--surface-shell-muted);
+    border-inline-end: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+    /* Material sheen effect */
+    background-image: linear-gradient(
+      145deg,
+      color-mix(in oklch, var(--color-white) var(--surface-sheen-strength), transparent),
+      transparent 80%
+    );
+  }
+  
+  /* Mobile: Off-canvas drawer */
+  @media (max-width: 767px) {
+    .view-sidebar {
+      position: fixed;
+      inset-inline-start: 0;
+      top: 0;
+      bottom: 0;
+      width: 280px;
+      transform: translateX(-100%);
+      transition: transform var(--duration-300) var(--ease-out);
+      z-index: var(--z-fixed);
+      box-shadow: var(--shadow-xl);
+    }
+    
+    .view-sidebar.is-open {
+      transform: translateX(0);
+    }
+  }
+  
+  .sidebar-header {
+    padding: var(--space-4) var(--space-6);
+    border-block-end: 1px solid var(--border-subtle);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .sidebar-block {
+    padding: var(--space-4) var(--space-6);
+  }
+  
+  .sidebar-block + .sidebar-block {
+    border-block-start: 1px solid var(--border-subtle);
+  }
+  
+  .sidebar-footer {
+    margin-block-start: auto;
+    padding: var(--space-4) var(--space-6);
+    border-block-start: 1px solid var(--border-subtle);
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     VIEW MAIN: Primary Content Area
+     Nested grid: header → toolbar → content → footer
+     ---------------------------------------------------------------- */
+  
+  .view-main {
+    grid-area: main;
+    display: grid;
+    grid-template-areas:
+      "main-header"
+      "main-toolbar"
+      "main-content"
+      "main-footer";
+    grid-template-rows: auto auto 1fr auto;
+    min-height: 0;
+    overflow: hidden;
+  }
+  
+  .main-header {
+    grid-area: main-header;
+    background: var(--surface-card);
+    border-block-end: 1px solid var(--border-subtle);
+    padding: var(--space-6);
+    flex-shrink: 0;
+  }
+  
+  .main-toolbar {
+    grid-area: main-toolbar;
+    background: var(--surface-raised);
+    border-block-end: 1px solid var(--border-subtle);
+    padding: var(--space-3) var(--space-6);
+    display: flex;
+    gap: var(--space-4);
+    align-items: center;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+  
+  .main-content {
+    grid-area: main-content;
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--layout-padding);
+  }
+  
+  /* Responsive padding */
+  @media (min-width: 768px) {
+    .main-content {
+      padding: var(--space-8);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .main-content {
+      padding: var(--space-10) var(--space-12);
+    }
+  }
+  
+  .content-section {
+    margin-block-end: var(--space-8);
+  }
+  
+  .content-section + .content-section {
+    padding-block-start: var(--space-8);
+    border-block-start: 1px solid var(--border-subtle);
+  }
+  
+  .content-article {
+    max-width: 70ch;
+    margin-inline: auto;
+    line-height: var(--leading-relaxed);
+  }
+  
+  /* Article typography optimizations */
+  .content-article h1,
+  .content-article h2,
+  .content-article h3,
+  .content-article h4,
+  .content-article h5,
+  .content-article h6 {
+    margin-block-start: var(--space-8);
+    margin-block-end: var(--space-4);
+  }
+  
+  .content-article p {
+    margin-block: var(--space-4);
+  }
+  
+  .content-article ul,
+  .content-article ol {
+    margin-block: var(--space-4);
+    padding-inline-start: var(--space-6);
+  }
+  
+  .main-footer {
+    grid-area: main-footer;
+    background: var(--surface-raised);
+    border-block-start: 1px solid var(--border-subtle);
+    padding: var(--space-4) var(--space-6);
+    flex-shrink: 0;
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     VIEW RIGHTBAR: Optional Right Panel
+     ---------------------------------------------------------------- */
+  
+  .view-rightbar {
+    grid-area: rightbar;
+    background: var(--surface-shell-muted);
+    border-inline-start: 1px solid var(--border-subtle);
+    padding: var(--space-6);
+    overflow-y: auto;
+    display: none;
+  }
+  
+  @media (min-width: 1280px) {
+    .view-rightbar {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     LAYOUT FOOTER: Site Footer
+     ---------------------------------------------------------------- */
+  
+  .layout-footer {
+    grid-area: footer;
+    background: var(--surface-shell);
+    border-block-start: 1px solid var(--border-subtle);
+    padding: var(--layout-footer-padding-y) var(--layout-shell-padding-x);
+  }
+  
+  @media (min-width: 768px) {
+    .layout-footer {
+      padding: var(--space-10) var(--space-8);
+    }
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     LAYOUT VARIANTS: Predefined Configurations
+     ---------------------------------------------------------------- */
+  
+  /* Single Column Layout */
+  .site-layout.single-column .layout-views {
+    grid-template-areas: "main";
+    grid-template-columns: 1fr;
+  }
+  
+  .site-layout.single-column .view-sidebar,
+  .site-layout.single-column .view-rightbar {
+    display: none;
+  }
+  
+  .site-layout.single-column .main-content {
+    max-width: 90ch;
+    margin-inline: auto;
+  }
+  
+  /* Dashboard Layout (Fixed height) */
+  .site-layout.dashboard {
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .site-layout.dashboard .view-sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+  }
+  
+  .site-layout.dashboard .view-main {
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  /* Reading Mode */
+  .site-layout.reading .main-content {
+    max-width: 70ch;
+    margin-inline: auto;
+    font-size: var(--text-lg);
+    line-height: var(--leading-loose);
+  }
+  
+  /* App Layout (Full screen) */
+  .site-layout.app {
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .site-layout.app .layout-views {
+    overflow: hidden;
+  }
+  
+  .site-layout.app .view-main {
+    overflow: hidden;
+  }
+  
+  .site-layout.app .main-content {
+    overflow-y: auto;
+    height: 100%;
+  }
+  
+  /* Gallery Layout */
+  .site-layout.gallery .main-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--layout-gap-inner);
+  }
+  
+  /* Landing Page Layout */
+  .site-layout.landing .layout-views {
+    justify-content: center;
+    text-align: left;
+  }
+  
+  .site-layout.landing .view-main {
+    max-width: min(var(--layout-max-width), 72rem);
+  }
+  
+  /* Fullscreen Layout */
+  .site-layout.fullscreen .view-sidebar,
+  .site-layout.fullscreen .view-rightbar {
+    display: none !important;
+  }
+  
+  .site-layout.fullscreen .layout-views {
+    padding-inline: 0;
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     LAYOUT MODIFIERS
+     ---------------------------------------------------------------- */
+  
+  /* Sticky Header */
+  .site-header-sticky .layout-header {
+    position: sticky;
+    top: var(--layout-sticky-offset);
+    z-index: var(--z-sticky);
+  }
+  
+  /* Sticky Toolbar */
+  .site-main-toolbar-sticky .main-toolbar {
+    position: sticky;
+    top: calc(var(--layout-sticky-offset) + var(--space-2));
+    z-index: calc(var(--z-sticky) - 10);
+  }
+  
+  /* Collapsed Sidebar */
+  .site-sidebar-collapsed .view-sidebar {
+    flex: 0 0 5rem;
+    max-width: 5rem;
+    overflow: hidden;
+  }
+  
+  /* Gap Variants */
+  .site-gap-tight {
+    --layout-gap: var(--space-4);
+    --layout-gap-inner: var(--space-3);
+  }
+  
+  .site-gap-loose {
+    --layout-gap: var(--space-12);
+    --layout-gap-inner: var(--space-8);
+  }
+  
+  /* Main Width Variants */
+  .site-main-narrow { --layout-main-max: 60ch; }
+  .site-main-wide   { --layout-main-max: 96ch; }
+  .site-main-full   { --layout-main-max: none; }
+  
+  /* Sticky Sidebar/Rightbar */
+  .view-sidebar-sticky {
+    position: sticky;
+    top: calc(var(--layout-sticky-offset) + var(--space-3));
+    align-self: flex-start;
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+  
+  .view-rightbar-sticky {
+    position: sticky;
+    top: calc(var(--layout-sticky-offset) + var(--space-3));
+    align-self: flex-start;
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     PRINT STYLES
+     ---------------------------------------------------------------- */
+  
+  @media print {
+    .site-layout {
+      display: block;
+      background: var(--color-white);
+    }
+    
+    .layout-preheader,
+    .layout-header,
+    .layout-postheader,
+    .view-sidebar,
+    .view-rightbar,
+    .main-toolbar,
+    .layout-footer {
+      display: none !important;
+    }
+    
+    .layout-views {
+      display: block;
+    }
+    
+    .view-main {
+      display: block;
+    }
+    
+    .main-content {
+      padding: 0;
+      max-width: none;
+    }
+  }
+}
+
+
+/* ==========================================================================
+   LAYER 7: COMPONENTS
+   Authoritative definitions for cards, buttons, badges, alerts, etc. Extend
+   via @layer components in input.css to add site-specific variants while
+   keeping the base API (class names, expected tokens) intact.
+   ========================================================================== */
+
+@layer components {
+  
+  /* ----------------------------------------------------------------
+     CARD COMPONENT
+     ---------------------------------------------------------------- */
+  
+  .card {
+    background: var(--surface-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-sm);
+    transition: 
+      transform var(--duration-200) var(--ease-out),
+      box-shadow var(--duration-200) var(--ease-out);
+  }
+  
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .card-elevated {
+    background: var(--surface-card-elevated);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .card-header {
+    margin-block-end: var(--space-4);
+    padding-block-end: var(--space-4);
+    border-block-end: 1px solid var(--border-subtle);
+  }
+  
+  .card-footer {
+    margin-block-start: var(--space-4);
+    padding-block-start: var(--space-4);
+    border-block-start: 1px solid var(--border-subtle);
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     BUTTON VARIANTS
+     ---------------------------------------------------------------- */
+  
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-lg);
+    font-weight: var(--font-medium);
+    font-size: var(--text-base);
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition:
+      transform var(--duration-150) var(--ease-out),
+      background var(--duration-150) var(--ease-out),
+      box-shadow var(--duration-150) var(--ease-out);
+  }
+  
+  .btn-primary {
+    background: var(--interactive-normal);
+    color: var(--text-inverse);
+    border-color: var(--interactive-normal);
+  }
+  
+  .btn-primary:hover {
+    background: var(--interactive-hover);
+    border-color: var(--interactive-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .btn-primary:active {
+    background: var(--interactive-active);
+    transform: translateY(0);
+  }
+  
+  .btn-secondary {
+    background: var(--surface-card);
+    color: var(--text-primary);
+    border-color: var(--border-default);
+  }
+  
+  .btn-secondary:hover {
+    background: var(--surface-hover);
+    border-color: var(--border-strong);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-primary);
+  }
+  
+  .btn-ghost:hover {
+    background: var(--surface-hover);
+  }
+  
+  .btn-sm {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-sm);
+  }
+  
+  .btn-lg {
+    padding: var(--space-4) var(--space-8);
+    font-size: var(--text-lg);
+  }
+  
+  .btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none !important;
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     BADGE COMPONENT
+     ---------------------------------------------------------------- */
+  
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    background: var(--surface-raised);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-subtle);
+  }
+  
+  .badge-primary {
+    background: color-mix(in oklch, var(--color-primary-500) 15%, var(--surface-card));
+    color: var(--color-primary-700);
+    border-color: var(--color-primary-300);
+  }
+  
+  .badge-success {
+    background: var(--state-success-bg);
+    color: var(--state-success-text);
+    border-color: var(--state-success-border);
+  }
+  
+  .badge-warning {
+    background: var(--state-warning-bg);
+    color: var(--state-warning-text);
+    border-color: var(--state-warning-border);
+  }
+  
+  .badge-error {
+    background: var(--state-error-bg);
+    color: var(--state-error-text);
+    border-color: var(--state-error-border);
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     ALERT COMPONENT
+     ---------------------------------------------------------------- */
+  
+  .alert {
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    border: 1px solid;
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+  }
+  
+  .alert-info {
+    background: var(--state-info-bg);
+    color: var(--state-info-text);
+    border-color: var(--state-info-border);
+  }
+  
+  .alert-success {
+    background: var(--state-success-bg);
+    color: var(--state-success-text);
+    border-color: var(--state-success-border);
+  }
+  
+  .alert-warning {
+    background: var(--state-warning-bg);
+    color: var(--state-warning-text);
+    border-color: var(--state-warning-border);
+  }
+  
+  .alert-error {
+    background: var(--state-error-bg);
+    color: var(--state-error-text);
+    border-color: var(--state-error-border);
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     CONTAINER COMPONENT
+     ---------------------------------------------------------------- */
+  
+  .container {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--space-4);
+  }
+  
+  @media (min-width: 640px) {
+    .container { max-width: 640px; }
+  }
+  
+  @media (min-width: 768px) {
+    .container { max-width: 768px; }
+  }
+  
+  @media (min-width: 1024px) {
+    .container { max-width: 1024px; }
+  }
+  
+  @media (min-width: 1280px) {
+    .container { max-width: 1280px; }
+  }
+  
+  @media (min-width: 1536px) {
+    .container { max-width: 1536px; }
+  }
+}
+
+
+/* ==========================================================================
+   LAYER 8: UTILITIES
+   Helper classes for spacing, alignment, text, and depth. Use as-is or append
+   more utilities from input.css when AI needs explicit, high-specificity
+   overrides without touching components.
+   ========================================================================== */
+
+@layer utilities {
+  
+  /* Accessibility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  
+  .visually-hidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+  
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--color-primary-500);
+    color: var(--text-inverse);
+    padding: var(--space-2) var(--space-4);
+    text-decoration: none;
+    z-index: var(--z-tooltip);
+    border-radius: var(--radius-md);
+  }
+  
+  .skip-link:focus {
+    top: 0;
+  }
+  
+  /* Display */
+  .hidden { display: none !important; }
+  .block { display: block !important; }
+  .inline-block { display: inline-block !important; }
+  .inline { display: inline !important; }
+  .flex { display: flex !important; }
+  .inline-flex { display: inline-flex !important; }
+  .grid { display: grid !important; }
+  
+  /* Flexbox */
+  .flex-row { flex-direction: row !important; }
+  .flex-col { flex-direction: column !important; }
+  .flex-wrap { flex-wrap: wrap !important; }
+  .flex-nowrap { flex-wrap: nowrap !important; }
+  .items-start { align-items: flex-start !important; }
+  .items-center { align-items: center !important; }
+  .items-end { align-items: flex-end !important; }
+  .items-stretch { align-items: stretch !important; }
+  .justify-start { justify-content: flex-start !important; }
+  .justify-center { justify-content: center !important; }
+  .justify-end { justify-content: flex-end !important; }
+  .justify-between { justify-content: space-between !important; }
+  .gap-1 { gap: var(--space-1) !important; }
+  .gap-2 { gap: var(--space-2) !important; }
+  .gap-3 { gap: var(--space-3) !important; }
+  .gap-4 { gap: var(--space-4) !important; }
+  .gap-6 { gap: var(--space-6) !important; }
+  .gap-8 { gap: var(--space-8) !important; }
+  
+  /* Spacing */
+  .m-0 { margin: 0 !important; }
+  .m-auto { margin: auto !important; }
+  .mx-auto { margin-inline: auto !important; }
+  .my-auto { margin-block: auto !important; }
+  .p-0 { padding: 0 !important; }
+  .p-2 { padding: var(--space-2) !important; }
+  .p-4 { padding: var(--space-4) !important; }
+  .p-6 { padding: var(--space-6) !important; }
+  .p-8 { padding: var(--space-8) !important; }
+  
+  /* Text */
+  .text-left { text-align: left !important; }
+  .text-center { text-align: center !important; }
+  .text-right { text-align: right !important; }
+  .text-xs { font-size: var(--text-xs) !important; }
+  .text-sm { font-size: var(--text-sm) !important; }
+  .text-base { font-size: var(--text-base) !important; }
+  .text-lg { font-size: var(--text-lg) !important; }
+  .text-xl { font-size: var(--text-xl) !important; }
+  .text-2xl { font-size: var(--text-2xl) !important; }
+  .text-3xl { font-size: var(--text-3xl) !important; }
+  .font-light { font-weight: var(--font-light) !important; }
+  .font-normal { font-weight: var(--font-normal) !important; }
+  .font-medium { font-weight: var(--font-medium) !important; }
+  .font-semibold { font-weight: var(--font-semibold) !important; }
+  .font-bold { font-weight: var(--font-bold) !important; }
+  .text-primary { color: var(--text-primary) !important; }
+  .text-secondary { color: var(--text-secondary) !important; }
+  .text-tertiary { color: var(--text-tertiary) !important; }
+  .text-brand { color: var(--text-brand) !important; }
+  
+  /* Background */
+  .bg-surface { background: var(--surface-card) !important; }
+  .bg-raised { background: var(--surface-raised) !important; }
+  .bg-muted { background: var(--surface-shell-muted) !important; }
+  .bg-primary { background: var(--color-primary-500) !important; }
+  
+  /* Border */
+  .border { border: 1px solid var(--border-default) !important; }
+  .border-0 { border: 0 !important; }
+  .border-subtle { border-color: var(--border-subtle) !important; }
+  .border-strong { border-color: var(--border-strong) !important; }
+  .rounded { border-radius: var(--radius-md) !important; }
+  .rounded-sm { border-radius: var(--radius-sm) !important; }
+  .rounded-lg { border-radius: var(--radius-lg) !important; }
+  .rounded-xl { border-radius: var(--radius-xl) !important; }
+  .rounded-full { border-radius: var(--radius-full) !important; }
+  
+  /* Shadow */
+  .shadow-none { box-shadow: none !important; }
+  .shadow-sm { box-shadow: var(--shadow-sm) !important; }
+  .shadow { box-shadow: var(--shadow-md) !important; }
+  .shadow-lg { box-shadow: var(--shadow-lg) !important; }
+  .shadow-xl { box-shadow: var(--shadow-xl) !important; }
+  
+  /* Responsive */
+  @media (max-width: 767px) {
+    .md\:hidden { display: none !important; }
+  }
+  
+  @media (min-width: 768px) {
+    .md\:block { display: block !important; }
+    .md\:flex { display: flex !important; }
+  }
+  
+  @media (min-width: 1024px) {
+    .lg\:block { display: block !important; }
+    .lg\:flex { display: flex !important; }
+  }
+}
+
+
+/* ==========================================================================
+   LAYER 9: DAISY-BRIDGE
+   Bridges Rocket tokens to DaisyUI variables so plugin components inherit
+   the same look. Adjust these values only from input.css when syncing with
+   custom DaisyUI themes.
+   ========================================================================== */
+
+@layer daisy-bridge {
+  :root {
+    /* Base Surfaces */
+    --b1: var(--surface-shell);
+    --b2: var(--surface-card);
+    --b3: var(--surface-card-elevated);
+    --bc: var(--text-primary);
+    
+    /* Primary */
+    --p: var(--color-primary-500);
+    --pf: var(--color-primary-600);
+    --pc: var(--text-inverse);
+    
+    /* Secondary */
+    --s: var(--color-secondary-500);
+    --sf: var(--color-secondary-600);
+    --sc: var(--text-inverse);
+    
+    /* Accent */
+    --a: var(--color-accent-500);
+    --af: var(--color-accent-600);
+    --ac: var(--text-inverse);
+    
+    /* Neutral */
+    --n: var(--color-neutral-500);
+    --nf: var(--color-neutral-600);
+    --nc: var(--text-inverse);
+    
+    /* State Colors */
+    --in: var(--color-info-500);
+    --inf: var(--color-info-500);
+    --inc: var(--text-inverse);
+    --su: var(--color-success-500);
+    --suf: var(--color-success-500);
+    --suc: var(--text-inverse);
+    --wa: var(--color-warning-500);
+    --waf: var(--color-warning-500);
+    --wac: var(--color-neutral-900);
+    --er: var(--color-error-500);
+    --erf: var(--color-error-500);
+    --erc: var(--text-inverse);
+    
+    /* Component Tokens */
+    --rounded-box: var(--radius-lg);
+    --rounded-btn: var(--radius-lg);
+    --rounded-badge: var(--radius-full);
+    --border-btn: 1px;
+    --animation-btn: var(--duration-200);
+    --animation-input: var(--duration-200);
+    --btn-focus-scale: 0.98;
+    --tab-border: 1px;
+    --tab-radius: var(--radius-md);
+    
+    /* Backwards Compatibility (DaisyUI v2.x) */
+    --color-primary: var(--p);
+    --color-primary-content: var(--pc);
+    --color-secondary: var(--s);
+    --color-secondary-content: var(--sc);
+    --color-accent: var(--a);
+    --color-accent-content: var(--ac);
+    --color-neutral: var(--n);
+    --color-neutral-content: var(--nc);
+    --color-base-100: var(--b1);
+    --color-base-200: var(--b2);
+    --color-base-300: var(--b3);
+    --color-base-content: var(--bc);
+    --color-info: var(--in);
+    --color-info-content: var(--inc);
+    --color-success: var(--su);
+    --color-success-content: var(--suc);
+    --color-warning: var(--wa);
+    --color-warning-content: var(--wac);
+    --color-error: var(--er);
+    --color-error-content: var(--erc);
+  }
+}
+
+
+/* ==========================================================================
+   LAYER 10: THEMES
+   Houses default light mode, auto dark mode, and named variants. Duplicate a
+   theme block into input.css (still inside @layer themes) whenever a project
+   needs its own palette without rewriting primitives.
+   ========================================================================== */
+
+@layer themes {
+  
+  /* Default Light Theme */
+  :root {
+    color-scheme: light;
+    --shadow-color-base: var(--color-black);
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     AUTOMATIC DARK MODE (OS Preference)
+     ---------------------------------------------------------------- */
+  
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+      color-scheme: dark;
+      
+      /* Invert lightness scale */
+      --scale-l-50: 0.40;
+      --scale-l-100: 0.45;
+      --scale-l-200: 0.50;
+      --scale-l-300: 0.55;
+      --scale-l-400: 0.60;
+      --scale-l-500: 0.65;
+      --scale-l-600: 0.70;
+      --scale-l-700: 0.75;
+      --scale-l-800: 0.80;
+      --scale-l-900: 0.85;
+      --scale-l-950: 0.90;
+      
+      /* Dark semantics */
+      --surface-base: oklch(0.12 0.02 260);
+      --surface-page: oklch(0.15 0.02 260);
+      --surface-shell: oklch(0.18 0.03 260);
+      --surface-shell-muted: oklch(0.22 0.03 260);
+      --surface-card: oklch(0.18 0.03 260);
+      --surface-card-elevated: oklch(0.22 0.03 260);
+      --surface-hover: oklch(0.25 0.03 260);
+      --text-primary: var(--color-neutral-100);
+      --text-secondary: var(--color-neutral-300);
+      --text-tertiary: var(--color-neutral-400);
+      --text-heading: var(--color-white);
+      --border-subtle: oklch(0.30 0.03 260);
+      --border-default: oklch(0.35 0.03 260);
+      --border-strong: oklch(0.40 0.04 260);
+      --surface-noise-opacity: 0.04;
+      --surface-glass-blur: 16px;
+    }
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     EXPLICIT DARK THEME
+     ---------------------------------------------------------------- */
+  
+  [data-theme="dark"] {
+    color-scheme: dark;
+    --scale-l-50: 0.40; --scale-l-100: 0.45; --scale-l-200: 0.50; --scale-l-300: 0.55;
+    --scale-l-400: 0.60; --scale-l-500: 0.65; --scale-l-600: 0.70; --scale-l-700: 0.75;
+    --scale-l-800: 0.80; --scale-l-900: 0.85; --scale-l-950: 0.90;
+    --surface-base: oklch(0.12 0.02 260);
+    --surface-page: oklch(0.15 0.02 260);
+    --surface-shell: oklch(0.18 0.03 260);
+    --surface-shell-muted: oklch(0.22 0.03 260);
+    --surface-card: oklch(0.18 0.03 260);
+    --text-primary: var(--color-neutral-100);
+    --text-heading: var(--color-white);
+  }
+  
+  
+  /* ----------------------------------------------------------------
+     THEMED VARIANTS (12+ Production Themes)
+     ---------------------------------------------------------------- */
+  
+  [data-theme="forest"] {
+    --primary-l: 0.55; --primary-c: 0.16; --primary-h: 150deg;
+    --secondary-l: 0.60; --secondary-c: 0.14; --secondary-h: 200deg;
+    --accent-l: 0.65; --accent-c: 0.15; --accent-h: 100deg;
+  }
+  
+  [data-theme="ocean"] {
+    --primary-l: 0.58; --primary-c: 0.18; --primary-h: 220deg;
+    --secondary-l: 0.62; --secondary-c: 0.16; --secondary-h: 200deg;
+    --accent-l: 0.70; --accent-c: 0.14; --accent-h: 180deg;
+  }
+  
+  [data-theme="sunset"] {
+    --primary-l: 0.62; --primary-c: 0.20; --primary-h: 30deg;
+    --secondary-l: 0.58; --secondary-c: 0.18; --secondary-h: 350deg;
+    --accent-l: 0.68; --accent-c: 0.16; --accent-h: 50deg;
+  }
+  
+  [data-theme="neon"] {
+    color-scheme: dark;
+    --surface-base: oklch(0.10 0.02 300);
+    --surface-shell: oklch(0.15 0.03 300);
+    --primary-l: 0.76; --primary-c: 0.30; --primary-h: 330deg;
+    --secondary-l: 0.78; --secondary-c: 0.28; --secondary-h: 200deg;
+    --text-primary: var(--color-neutral-100);
+  }
+  
+  [data-theme="retro"] {
+    --surface-base: oklch(0.96 0.02 60);
+    --surface-shell: oklch(0.92 0.03 55);
+    --primary-l: 0.62; --primary-c: 0.16; --primary-h: 35deg;
+  }
+  
+  [data-theme="monochrome"] {
+    --primary-l: 0.30; --primary-c: 0.05; --primary-h: 0deg;
+    --secondary-l: 0.56; --secondary-c: 0.03; --secondary-h: 0deg;
+  }
+  
+  [data-theme="lavender"] {
+    --primary-l: 0.65; --primary-c: 0.18; --primary-h: 290deg;
+    --secondary-l: 0.68; --secondary-c: 0.15; --secondary-h: 320deg;
+  }
+  
+  [data-theme="emerald"] {
+    --primary-l: 0.58; --primary-c: 0.17; --primary-h: 160deg;
+    --secondary-l: 0.62; --secondary-c: 0.15; --secondary-h: 180deg;
+  }
+  
+  [data-theme="rose"] {
+    --primary-l: 0.64; --primary-c: 0.18; --primary-h: 350deg;
+    --secondary-l: 0.66; --secondary-c: 0.16; --secondary-h: 10deg;
+  }
+  
+  [data-theme="amber"] {
+    --primary-l: 0.68; --primary-c: 0.19; --primary-h: 45deg;
+    --secondary-l: 0.64; --secondary-c: 0.17; --secondary-h: 30deg;
+  }
+  
+  [data-theme="midnight"] {
+    color-scheme: dark;
+    --surface-base: oklch(0.10 0.04 250);
+    --surface-shell: oklch(0.15 0.05 250);
+    --primary-l: 0.65; --primary-c: 0.20; --primary-h: 240deg;
+  }
+  
+  [data-theme="corporate"] {
+    --primary-l: 0.55; --primary-c: 0.15; --primary-h: 220deg;
+    --surface-base: oklch(0.98 0.005 220);
+  }
+}
+
+
+/* ==========================================================================
+   LAYER 11: MOBILE
+   Safe areas, touch targets, scroll smoothing, high-contrast rules.
+   Add more mobile policies from input.css using @layer mobile to cover
+   project-specific UX needs without duplicating base layouts.
+   ========================================================================== */
+
+@layer mobile {
+  
+  /* iOS Safe Areas */
+  @supports (padding: env(safe-area-inset-top)) {
+    .site-layout {
+      padding-top: max(env(safe-area-inset-top), var(--space-4));
+      padding-right: env(safe-area-inset-right);
+      padding-bottom: max(env(safe-area-inset-bottom), var(--space-4));
+      padding-left: env(safe-area-inset-left);
+    }
+  }
+  
+  /* Touch Target Sizes (WCAG AAA: 44x44px) */
+  button,
+  a:not(p a):not(li a),
+  [role="button"],
+  input[type="checkbox"],
+  input[type="radio"],
+  select,
+  .btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Horizontal Scroll Prevention */
+  html, body {
+    overflow-x: hidden;
+  }
+  
+  * {
+    max-width: 100%;
+  }
+  
+  /* Smooth Touch Scrolling */
+  .view-sidebar,
+  .main-content,
+  .view-rightbar {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+  
+  /* Disable Tap Highlight */
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+  
+  /* Responsive Tables */
+  @media (max-width: 767px) {
+    table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+  
+  /* Mobile Navigation Toggle */
+  .mobile-menu-toggle {
+    display: none;
+  }
+  
+  @media (max-width: 767px) {
+    .mobile-menu-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+    }
+    
+    /* Mobile Layout Adjustments */
+    .site-layout {
+      --layout-gap: var(--space-4);
+      --layout-shell-padding-x: var(--space-4);
+    }
+    
+    .layout-nav {
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .layout-nav::-webkit-scrollbar {
+      display: none;
+    }
+    
+    /* Mobile Form Optimization */
+    input, textarea, select {
+      font-size: 16px; /* Prevents iOS zoom on focus */
+    }
+  }
+  
+  /* Prevent Text Size Adjustment */
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  
+  /* Landscape Optimization */
+  @media (max-width: 767px) and (orientation: landscape) {
+    .layout-header {
+      padding-block: var(--space-3);
+    }
+  }
+  
+  /* High Contrast Mode */
+  @media (prefers-contrast: high) {
+    :root {
+      --border-default: var(--border-strong);
+    }
+    
+    button, input {
+      border-width: 2px;
+    }
+  }
+}
+
+
+/* ==========================================================================
+   END OF ROCKET CSS v4.0 DESIGN FRAMEWORK
+   ==========================================================================
+   
+   SHIP READINESS CHECKLIST:
+   1. Color engine + scales compiled.
+   2. Semantic tokens mapped to primitives.
+   3. Layout shell + zones applied to the page.
+   4. Components + utilities available for reuse.
+   5. Themes + mobile policies loaded.
+   
+   IMPLEMENTATION NOTES:
+   - Extend via site/assets/css/input.css only, mirroring the same @layer names.
+   - Declare project or AI-generated tokens there (colors, radii, shadows).
+   - Add new components/utilities/themes there, referencing the glossary above.
+   - Keep naming/structure intact so every Rocket site behaves identically.
+   
+   Need a new variation? Fork the relevant section in input.css, not here.
+   This file stays frozen as the reference manual for Rocket properties.
+   
+   ========================================================================== */
